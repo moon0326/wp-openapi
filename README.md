@@ -79,6 +79,7 @@ You can use the file offline or host it on a webserver.
 
 ## Todo
 
-[] Code clean up 
-[] Write tests
-[] Make a publicly accessible endpoint
+- [ ] Code clean up 
+- [ ] Write tests
+- [ ] Make a publicly accessible endpoint
+
