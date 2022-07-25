@@ -27,6 +27,9 @@ read -r VERSION
 
 CURRENTBRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
+# Create the zip archive
+./bin/build-zip.sh
+
 if [ ! -d "build" ]; then
 	echo "Build directory not found. Aborting."
 	exit 1
@@ -35,8 +38,6 @@ fi
 echo "Starting release to GitHub..."
 echo
 
-# Create the zip archive
-./bin/build-zip.sh
 
 # Create a release branch.
 BRANCH="build/${VERSION}"
