@@ -77,4 +77,8 @@ You can use the file offline or host it on a webserver.
 3. Run `wp openapi export --namespace=all --save_to=./export.html`
 
 
+## Todo
 
+[] Code clean up 
+[] Write tests
+[] Make a publicly accessible endpoint
