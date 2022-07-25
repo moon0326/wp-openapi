@@ -13,14 +13,9 @@ It has two main features.
 ![screenshot](./screenshots/screenshot1.jpg)
 
 
-
-## Installation
-
-Download the latest zip archive from [releases](./releases) page and active it.
-
 ## Usage
 
-1. Activate the plugin.
+1. Download the latest zip archive from [releases](https://github.com/moon0326/wp-openapi/releases) page and active it.
 2. You should see `WP OpenAPI` menu on the sidebar.
 3. Click `All` to view all the endpoints or choose a namespace to view the endpoints registered in the namespace.
 

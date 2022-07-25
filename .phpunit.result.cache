@@ -1,1 +1,0 @@
-{"version":1,"defects":{"WPOpenAPI\\Tests\\Unit\\SchemaTest::test_it_generates_schema":5,"WPOpenAPI\\Tests\\Unit\\MethodTest::test":5,"WPOpenAPI\\Tests\\Unit\\ParameterTest::test":3},"times":{"WPOpenAPI\\Tests\\Unit\\SchemaTest::test_it_generates_schema":0,"WPOpenAPI\\Tests\\Unit\\MethodTest::test":0.001,"WPOpenAPI\\Tests\\Unit\\ParameterTest::test":0}}

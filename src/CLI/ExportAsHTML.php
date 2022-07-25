@@ -17,7 +17,7 @@ class ExportAsHTML {
 			'siteurl'         => get_option( 'siteurl' ),
 			'wp_version'      => $wp_version,
 		);
-		$schemaGenerator = new SchemaGenerator( new Filters(), $siteInfo, rest_get_server() );
+		$schemaGenerator = new SchemaGenerator( Filters::getInstance(), $siteInfo, rest_get_server() );
 
 		$view = new View( 'export-html' );
 		$html = $view->render(
