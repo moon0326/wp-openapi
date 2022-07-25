@@ -52,7 +52,7 @@ git commit -m "Adding /build directory to release" --no-verify
 git push origin $BRANCH
 
 # Create the new release.
-hub release create -m $VERSION -m "Release of version $VERSION." -t $BRANCH "v${VERSION}" --attach "./woocommerce-admin-test-helper.zip"
+hub release create -m $VERSION -m "Release of version $VERSION." -t $BRANCH "v${VERSION}" --attach "./wp-openapi.zip"
 
 git checkout $CURRENTBRANCH
 git branch -D $BRANCH
