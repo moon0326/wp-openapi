@@ -35,6 +35,9 @@ fi
 echo "Starting release to GitHub..."
 echo
 
+# Create the zip archive
+./bin/build-zip.sh
+
 # Create a release branch.
 BRANCH="build/${VERSION}"
 git checkout -b $BRANCH
@@ -47,8 +50,7 @@ git commit -m "Adding /build directory to release" --no-verify
 # Push branch upstream
 git push origin $BRANCH
 
-# Create the zip archive
-./bin/build-zip.sh
+
 
 # Create the new release.
 hub release create -m $VERSION -m "Release of version $VERSION." -t $BRANCH "v${VERSION}" --attach "./woocommerce-admin-test-helper.zip"
