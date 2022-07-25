@@ -1,0 +1,23 @@
+{
+  "name": "wp-swaggerui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run watch",
+    "build": "wp-scripts build",
+    "watch": "wp-scripts start",
+    "validate": "node ./bin/validate.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@seriousme/openapi-schema-validator": "^2.0.2",
+    "@woocommerce/dependency-extraction-webpack-plugin": "1.4.0",
+    "@wordpress/scripts": "^13.0.3"
+  },
+  "dependencies": {
+    "@stoplight/elements": "^7.6.1",
+    "@wordpress/element": "^4.11.0"
+  }
+}

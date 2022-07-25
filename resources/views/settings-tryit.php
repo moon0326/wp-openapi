@@ -1,0 +1,1 @@
+<input type="checkbox" name="wp-openapi-options[enableTryIt]" <?php if($checked) {echo 'checked';} ?>/>

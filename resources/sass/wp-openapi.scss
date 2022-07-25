@@ -1,0 +1,20 @@
+body #wpcontent {
+  background-color: var(--color-canvas-100);
+}
+body .sl-elements .OperationParametersContent {
+  max-height: 100%;
+}
+
+body .sl-elements {
+  border-bottom: 1px solid var(--color-border, currentColor);
+}
+
+
+.wp-openapi-callback-info-html {
+  font-size: 12px;
+  overflow-wrap: break-word;
+  .wp-openapi-callback-info-html-label {
+    font-weight: bold;
+    margin: 3px 0px 3px 0px;
+  }
+}
