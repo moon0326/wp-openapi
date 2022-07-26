@@ -56,7 +56,7 @@ You can also use [Filters](./src/Filters.php).
 
 
 ```php
-Filters::getInstance()->AddPathFilter(function(Path $path, array $args) {
+(new Filters)->AddPathFilter(function(Path $path, array $args) {
     if ($args['namespaces'][0] === 'all') {
       foreach ($path->getOperations() as $operation) {
           $operation->setDescription("test description");
