@@ -15,7 +15,7 @@ It has two main features.
 
 ## Usage
 
-1. Download the latest zip archive from [releases](https://github.com/moon0326/wp-openapi/releases) page and active it.
+1. Download the latest zip archive from [releases](https://github.com/moon0326/wp-openapi/releases) page and activate it.
 2. You should see `WP OpenAPI` menu on the sidebar.
 3. Click `All` to view all the endpoints or choose a namespace to view the endpoints registered in the namespace.
 
