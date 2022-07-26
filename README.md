@@ -82,4 +82,5 @@ You can use the file offline or host it on a webserver.
 - [ ] Code clean up 
 - [ ] Write tests
 - [ ] Make a publicly accessible endpoint
+- [ ] Remove this [dirty hack](https://github.com/moon0326/wp-openapi/blob/main/resources/scripts/wp-openapi.js#L12) :sweat_smile:
 
