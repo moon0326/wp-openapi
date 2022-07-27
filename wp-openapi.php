@@ -8,9 +8,13 @@
  * @license     GPL-2.0-or-later
  *
  * Plugin Name: WP OpenAPI
+ * Plugin URI: https://github.com/moon0326/wp-openapi
  * Version:     1.0.0
- * Author:      Moon
+ * Author:      Moon K
+ * Author URI: https://github.com/moon0326/wp-openapi
  * License:     GPL v2 or later
+ * Requires PHP: 7.1
+ * Description: WP OpenAPI outputs the OpenAPI 3.1.0 spec and provides a viewer for your WordPress REST APIs.
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
