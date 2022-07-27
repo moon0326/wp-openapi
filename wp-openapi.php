@@ -11,7 +11,7 @@
  * Plugin URI: https://github.com/moon0326/wp-openapi
  * Version:     1.0.0
  * Author:      Moon K
- * Author URI: https://github.com/moon0326/wp-openapi
+ * Author URI: https://github.com/moon0326
  * License:     GPL v2 or later
  * Requires PHP: 7.1
  * Description: WP OpenAPI outputs the OpenAPI 3.1.0 spec and provides a viewer for your WordPress REST APIs.
