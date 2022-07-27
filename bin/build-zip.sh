@@ -12,5 +12,7 @@ zip -r "wp-openapi.zip" \
 	resources \
 	vendor \
 	composer.json \
+	readme.md \
+	readme.txt \
 	src \
 	build/
