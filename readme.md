@@ -72,6 +72,36 @@ You can use the file offline or host it on a webserver.
 2. Open a terminal session and cd to your WordPress installtion directory.
 3. Run `wp openapi export --namespace=all --save_to=./export.html`
 
+## Development
+
+### Getting Started
+
+To get started, run the following commands:
+
+```
+npm i
+composer install
+npm start
+```
+
+See [wp-scripts](https://github.com/WordPress/gutenberg/tree/master/packages/scripts) for more usage information.
+
+### Deploying
+
+Prerequisites:
+
+- [Hub](https://github.com/github/hub)
+- Write access to this repository
+
+Simply run `./bin/release-to-github.sh`
+
+
+You can also build a zip file for testing purposes by runnning `./bin/build-zip.sh`
+
+
+
+
+
 ## Todo
 
 - [ ] Code clean up
