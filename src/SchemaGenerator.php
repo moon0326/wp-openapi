@@ -7,6 +7,7 @@ use WPOpenAPI\Spec\Contact;
 use WPOpenAPI\Spec\Info;
 use WPOpenAPI\Spec\Path;
 use WPOpenAPI\Spec\Server;
+use WPOpenAPI\Spec\Tag;
 
 class SchemaGenerator {
 	private Filters $hooks;
@@ -24,7 +25,7 @@ class SchemaGenerator {
 		$this->siteInfo   = $siteInfo;
 	}
 
-	private function generateInfo( $namespaces ): Info {
+	private function generateInfo( array $hookArgs ): Info {
 		$contact = new Contact( $this->siteInfo['admin_email'] );
 		$info    = new Info(
 			ucfirst( $this->siteInfo['blogname'] ) . ' API',
@@ -33,24 +34,29 @@ class SchemaGenerator {
 			$contact
 		);
 
-		return $this->hooks->applyInfoFilters( $info, array( 'namespaces' => $namespaces ) );
+		return $this->hooks->applyInfoFilters( $info, $hookArgs );
 	}
 
-	private function generateServer( $namespaces ): Server {
+	private function generateServer( array $hookArgs ): Server {
 		$server = new Server( $this->siteInfo['siteurl'] . '/wp-json' );
-		return $this->hooks->applyServerFilters( $server, array( 'namespaces' => $namespaces ) );
+		return $this->hooks->applyServerFilters( $server, $hookArgs );
 	}
 
 	public function generate( $requestedNamespace ): array {
 		$namespaces = $requestedNamespace === 'all' ? $this->restServer->get_namespaces() : array( $requestedNamespace );
 
+		$hookArgs = array(
+			'requestedNamespace' => $requestedNamespace,
+		);
+
 		$base = array(
 			'openapi'    => '3.1.0',
-			'info'       => $this->generateInfo( $namespaces )->toArray(),
+			'info'       => $this->generateInfo( $hookArgs )->toArray(),
 			'servers'    => array(
-				$this->generateServer( $namespaces )->toArray(),
+				$this->generateServer( $hookArgs )->toArray(),
 			),
-			'security' => array(),
+			'tags' => array(),
+			'security'   => array(),
 			'components' => array(
 				'schemas' => array(),
 			),
@@ -59,6 +65,7 @@ class SchemaGenerator {
 		$paths = array();
 
 		foreach ( $namespaces as $namespace ) {
+			$base['tags'][] = new Tag($namespace, 'test');
 			foreach ( $this->restServer->get_routes( $namespace ) as $path => $args ) {
 				$options     = $this->restServer->get_route_options( $path );
 				$schemaTitle = null;
@@ -76,15 +83,23 @@ class SchemaGenerator {
 		}
 
 		$base['paths'] = array_map(
-			function( $path ) use ( $namespaces ) {
-				$path = $this->hooks->applyPathFilter( $path, array( 'namespaces' => $namespaces ) );
+			function( $path ) use ( $hookArgs ) {
+				$path = $this->hooks->applyPathFilter( $path, $hookArgs );
 				return $path->toArray();
 			},
 			$paths
 		);
 
-		$base['components'] = $this->hooks->applyComponentsFilters( $base['components'], array( 'namespaces' => $namespaces ) );
-		$base['security'] = $this->hooks->applyServerFilters($base['security'], array( 'namespaces' => $namespaces ) );
+		$base['tags'] = array_map(
+			function (Tag $tag) use ($hookArgs) {
+				$tag = $this->hooks->applyTagFilter($tag, $hookArgs);
+				return $tag->toArray();
+			},
+			$base['tags']
+		);
+
+		$base['components'] = $this->hooks->applyComponentsFilters( $base['components'], $hookArgs );
+		$base['security']   = $this->hooks->applySecurityFilters( $base['security'], $hookArgs );
 
 		return $base;
 	}

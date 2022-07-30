@@ -6,6 +6,7 @@ use WPOpenAPI\Spec\Info;
 use WPOpenAPI\Spec\Operation;
 use WPOpenAPI\Spec\Path;
 use WPOpenAPI\Spec\Server;
+use WPOpenAPI\Spec\Tag;
 
 class Filters {
 
@@ -67,5 +68,13 @@ class Filters {
 
 	public function addSecurityFilter( $callback, $priority = 10 ) {
 		return add_filter( self::PREFIX . 'filter-security', $callback, $priority, 2 );
+	}
+
+	public function applyTagFilter( Tag $tag, array $args = array() ): Tag {
+		return apply_filters( self::PREFIX . 'filter-tag', $tag, $args );
+	}
+
+	public function addTagFilter( $callback, $priority = 10 ) {
+		return add_filter( self::PREFIX . 'filter-tag', $callback, $priority, 2 );
 	}
 }
