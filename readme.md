@@ -15,7 +15,7 @@ It has two main features.
 
 ## Usage
 
-1. Download the latest zip archive from [releases](https://github.com/moon0326/wp-openapi/releases) page and active it.
+1. Download the latest zip archive from [releases](https://github.com/moon0326/wp-openapi/releases) page and activate it.
 2. You should see `WP OpenAPI` menu on the sidebar.
 3. Click `All` to view all the endpoints or choose a namespace to view the endpoints registered in the namespace.
 
@@ -56,7 +56,7 @@ You can also use [Filters](./src/Filters.php).
 
 
 ```php
-Filters::getInstance()->AddPathFilter(function(Path $path, array $args) {
+(new Filters)->AddPathFilter(function(Path $path, array $args) {
     if ($args['namespaces'][0] === 'all') {
       foreach ($path->getOperations() as $operation) {
           $operation->setDescription("test description");
@@ -77,4 +77,10 @@ You can use the file offline or host it on a webserver.
 3. Run `wp openapi export --namespace=all --save_to=./export.html`
 
 
+## Todo
+
+- [ ] Code clean up 
+- [ ] Write tests
+- [ ] Make a publicly accessible endpoint
+- [ ] Remove this [dirty hack](https://github.com/moon0326/wp-openapi/blob/main/resources/scripts/wp-openapi.js#L12) :sweat_smile:
 
