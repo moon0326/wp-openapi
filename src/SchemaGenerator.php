@@ -50,6 +50,7 @@ class SchemaGenerator {
 			'servers'    => array(
 				$this->generateServer( $namespaces )->toArray(),
 			),
+			'security' => array(),
 			'components' => array(
 				'schemas' => array(),
 			),
@@ -81,6 +82,9 @@ class SchemaGenerator {
 			},
 			$paths
 		);
+
+		$base['components'] = $this->hooks->applyComponentsFilters( $base['components'], array( 'namespaces' => $namespaces ) );
+		$base['security'] = $this->hooks->applyServerFilters($base['security'], array( 'namespaces' => $namespaces ) );
 
 		return $base;
 	}

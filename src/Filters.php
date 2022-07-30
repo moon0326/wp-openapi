@@ -52,4 +52,20 @@ class Filters {
 	public function applyInfoFilters( Info $info, array $args = array() ): Info {
 		return apply_filters( self::PREFIX . 'filter-info', $info, $args );
 	}
+
+	public function applyComponentsFilters( array $components, array $args = array() ): array {
+		return apply_filters( self::PREFIX . 'filter-components', $components, $args );
+	}
+
+	public function addComponentsFilter( $callback, $priority = 10 ) {
+		return add_filter( self::PREFIX . 'filter-components', $callback, $priority, 2 );
+	}
+
+	public function applySecurityFilters( array $security, array $args = array() ): array {
+		return apply_filters( self::PREFIX . 'filter-security', $security, $args );
+	}
+
+	public function addSecurityFilter( $callback, $priority = 10 ) {
+		return add_filter( self::PREFIX . 'filter-security', $callback, $priority, 2 );
+	}
 }
