@@ -84,7 +84,7 @@ class SchemaGenerator {
 
 		$base['paths'] = array_map(
 			function( $path ) use ( $hookArgs ) {
-				$path = $this->hooks->applyPathFilter( $path, $hookArgs );
+				$path = $this->hooks->applyPathFilters( $path, $hookArgs );
 				return $path->toArray();
 			},
 			$paths
@@ -92,7 +92,7 @@ class SchemaGenerator {
 
 		$base['tags'] = array_map(
 			function (Tag $tag) use ($hookArgs) {
-				$tag = $this->hooks->applyTagFilter($tag, $hookArgs);
+				$tag = $this->hooks->applyTagFilters($tag, $hookArgs);
 				return $tag->toArray();
 			},
 			$base['tags']

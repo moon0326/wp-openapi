@@ -34,7 +34,7 @@ class Filters {
 		add_filter( self::PREFIX . 'filter-path', $callback, $priority, 2 );
 	}
 
-	public function applyPathFilter( Path $path, array $args = array() ): Path {
+	public function applyPathFilters( Path $path, array $args = array() ): Path {
 		return apply_filters( self::PREFIX . 'filter-path', $path, $args );
 	}
 
@@ -70,7 +70,7 @@ class Filters {
 		return add_filter( self::PREFIX . 'filter-security', $callback, $priority, 2 );
 	}
 
-	public function applyTagFilter( Tag $tag, array $args = array() ): Tag {
+	public function applyTagFilters( Tag $tag, array $args = array() ): Tag {
 		return apply_filters( self::PREFIX . 'filter-tag', $tag, $args );
 	}
 
