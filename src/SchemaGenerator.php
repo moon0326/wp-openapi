@@ -26,8 +26,13 @@ class SchemaGenerator {
 	}
 
 	private function generateInfo( array $hookArgs ): Info {
-		$contact = new Contact( $this->siteInfo['admin_email'] );
-		$info    = new Info(
+		$contact = new Contact(
+			$this->siteInfo['blogname'],
+			$this->siteInfo['siteurl'],
+			$this->siteInfo['admin_email']
+		);
+
+		$info = new Info(
 			ucfirst( $this->siteInfo['blogname'] ) . ' API',
 			$this->siteInfo['wp_version'],
 			$this->siteInfo['blogdescription'],

@@ -156,6 +156,8 @@ class WPOpenAPI {
 			$data['options']['hideTryIt'] = true;
 		}
 
+		$data = apply_filters('wp-openapi-filters-elements-props', $data);
+
 		wp_localize_script( 'wp-openapi-js', 'wpOpenApi', $data );
 	}
 }
