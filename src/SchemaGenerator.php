@@ -55,7 +55,7 @@ class SchemaGenerator {
 			'servers'    => array(
 				$this->generateServer( $hookArgs )->toArray(),
 			),
-			'tags' => array(),
+			'tags'       => array(),
 			'security'   => array(),
 			'components' => array(
 				'schemas' => array(),
@@ -65,7 +65,7 @@ class SchemaGenerator {
 		$paths = array();
 
 		foreach ( $namespaces as $namespace ) {
-			$base['tags'][] = new Tag($namespace, 'test');
+			$base['tags'][] = new Tag( $namespace );
 			foreach ( $this->restServer->get_routes( $namespace ) as $path => $args ) {
 				$options     = $this->restServer->get_route_options( $path );
 				$schemaTitle = null;
@@ -91,8 +91,8 @@ class SchemaGenerator {
 		);
 
 		$base['tags'] = array_map(
-			function (Tag $tag) use ($hookArgs) {
-				$tag = $this->hooks->applyTagFilters($tag, $hookArgs);
+			function ( Tag $tag ) use ( $hookArgs ) {
+				$tag = $this->hooks->applyTagFilters( $tag, $hookArgs );
 				return $tag->toArray();
 			},
 			$base['tags']
