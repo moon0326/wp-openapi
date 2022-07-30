@@ -18,9 +18,9 @@ function downloadPage(url) {
 }
 
 // for functions returning promises
-async function myBackEndLogic() {
+async function validate(url) {
     try {
-        let html = await downloadPage('http://woodev.local/wp-json-openapi?namespace=all');
+        let html = await downloadPage(url);
         html = JSON.parse(html);
 		const validator = new Validator();
 		const res = await validator.validate(html);
@@ -41,5 +41,10 @@ async function myBackEndLogic() {
     }
 }
 
-myBackEndLogic();
-
+if (process.argv.length ===3) {
+    validate(process.argv[2]);
+} else {
+    console.log("URL is required.\n");
+    console.log("Usage: ./bin/validator.js :URL");
+    process.exit;
+}
