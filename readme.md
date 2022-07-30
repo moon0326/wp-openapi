@@ -43,7 +43,7 @@ WP OpenAPI has the following filters to modify the output.
 | wp-openapi-filter-path       |      [Path](./src/Spec/Path.php)      | AddPathFilter             |
 | wp-openapi-filter-server     |    [Server](./src/Spec/Server.php)    | AddServerFilter           |
 | wp-openapi-filter-info       |      [Info](./src/Spec/Info.php)      | AddInfoFilter             |
-| wp-openapi-filter-tag        |       [Tag](./src/Spec/Tag.php        | AddTagFilter              |
+| wp-openapi-filter-tag        |       [Tag](./src/Spec/Tag.php)        | AddTagFilter              |
 | wp-openapi-filter-security   |                 Array                 | AddSecurityFilter         |
 | wp-oepnapi-filter-components |                 Array                 | AddComponentsFilter       |
 
