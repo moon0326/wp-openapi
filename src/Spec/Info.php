@@ -9,7 +9,7 @@ class Info {
 	private string $version;
 	private Contact $contact;
 
-	public function __construct( string $title, string $description, string $version, Contact $contact ) {
+	public function __construct( string $title, string $version, string $description, Contact $contact ) {
 		$this->title       = $title;
 		$this->description = $description;
 		$this->version     = $version;

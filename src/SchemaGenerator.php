@@ -29,8 +29,8 @@ class SchemaGenerator {
 		$contact = new Contact( $this->siteInfo['admin_email'] );
 		$info    = new Info(
 			ucfirst( $this->siteInfo['blogname'] ) . ' API',
-			$this->siteInfo['blogdescription'],
 			$this->siteInfo['wp_version'],
+			$this->siteInfo['blogdescription'],
 			$contact
 		);
 
