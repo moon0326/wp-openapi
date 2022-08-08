@@ -39,11 +39,11 @@ WP OpenAPI has the following filters to modify the output.
 
 | Name                         |               Argument                | Equivalent Filters Method |
 | ---------------------------- | :-----------------------------------: | ------------------------- |
-| wp-openapi-filter-operation  | [Operation](./src/Spec/Operation.php) | AddOperationFilter        |
-| wp-openapi-filter-path       |      [Path](./src/Spec/Path.php)      | AddPathFilter             |
-| wp-openapi-filter-server     |    [Server](./src/Spec/Server.php)    | AddServerFilter           |
+| wp-openapi-filter-operations  | [Operation[]](./src/Spec/Operation.php) | AddOperationsFilter        |
+| wp-openapi-filter-paths       |      [Path[]](./src/Spec/Path.php)      | AddPathsFilter             |
+| wp-openapi-filter-servers     |    [Server[]](./src/Spec/Server.php)    | AddServersFilter           |
 | wp-openapi-filter-info       |      [Info](./src/Spec/Info.php)      | AddInfoFilter             |
-| wp-openapi-filter-tag        |       [Tag](./src/Spec/Tag.php)        | AddTagFilter              |
+| wp-openapi-filter-tags        |       [Tag[]](./src/Spec/Tag.php)        | AddTagsFilter              |
 | wp-openapi-filter-security   |                 Array                 | AddSecurityFilter         |
 | wp-oepnapi-filter-components |                 Array                 | AddComponentsFilter       |
 | wp-openapi-filters-elements-props | Array||
