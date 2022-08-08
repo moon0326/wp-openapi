@@ -5,7 +5,6 @@ namespace WPOpenAPI;
 use WPOpenAPI\Spec\Info;
 use WPOpenAPI\Spec\Operation;
 use WPOpenAPI\Spec\Path;
-use WPOpenAPI\Spec\Server;
 use WPOpenAPI\Spec\Tag;
 
 class Filters {
@@ -22,59 +21,124 @@ class Filters {
 		return static::$instance;
 	}
 
-	public function addOperationFilter( $callback, $priority = 10 ) {
-		add_filter( self::PREFIX . 'filter-operation', $callback, $priority, 2 );
+	/**
+	 * @param $callback
+	 * @param int $priority
+	 * @return void
+	 */
+	public function addOperationsFilter( $callback, int $priority = 10 ) {
+		add_filter( self::PREFIX . 'filter-operations', $callback, $priority, 2 );
 	}
 
-	public function applyOperationFilters( Operation $operation, array $args = array() ): Operation {
-		return apply_filters( self::PREFIX . 'filter-operation', $operation, $args );
+	/**
+	 * @param Operation[] $operations
+	 * @param array $args
+	 * @return Operation[]
+	 */
+	public function applyOperationsFilters( array $operations, array $args = array() ): array {
+		return apply_filters( self::PREFIX . 'filter-operations', $operations, $args );
 	}
 
-	public function addPathFilter( $callback, $priority = 10 ) {
-		add_filter( self::PREFIX . 'filter-path', $callback, $priority, 2 );
+	public function addPathsFilter( $callback, $priority = 10 ) {
+		add_filter( self::PREFIX . 'filter-paths', $callback, $priority, 2 );
 	}
 
-	public function applyPathFilters( Path $path, array $args = array() ): Path {
-		return apply_filters( self::PREFIX . 'filter-path', $path, $args );
+	/**
+	 * @param Path[] $paths
+	 * @param array  $args
+	 * @return Path[]
+	 */
+	public function applyPathsFilters( array $paths, array $args = array() ): array {
+		return apply_filters( self::PREFIX . 'filter-paths', $paths, $args );
 	}
 
-	public function addServerFilter( $callback, $priority = 10 ) {
-		add_filter( self::PREFIX . 'filter-server', $callback, $priority, 2 );
+	/**
+	 * @param $callback
+	 * @param int      $priority
+	 * @return void
+	 */
+	public function addServersFilter( $callback, int $priority = 10 ) {
+		add_filter( self::PREFIX . 'filter-servers', $callback, $priority, 2 );
 	}
 
-	public function applyServerFilters( Server $server, array $args = array() ): Server {
-		return apply_filters( self::PREFIX . 'filter-server', $server, $args );
+	/**
+	 * @param array $servers
+	 * @param array $args
+	 * @return array
+	 */
+	public function applyServersFilters( array $servers, array $args = array() ): array {
+		return apply_filters( self::PREFIX . 'filter-servers', $servers, $args );
 	}
 
-	public function addInfoFilter( $callback, $priority = 10 ) {
+	/**
+	 * @param $callback
+	 * @param int      $priority
+	 * @return void
+	 */
+	public function addInfoFilter( $callback, int $priority = 10 ) {
 		add_filter( self::PREFIX . 'filter-info', $callback, $priority, 2 );
 	}
 
+	/**
+	 * @param Info  $info
+	 * @param array $args
+	 * @return Info
+	 */
 	public function applyInfoFilters( Info $info, array $args = array() ): Info {
 		return apply_filters( self::PREFIX . 'filter-info', $info, $args );
 	}
 
+	/**
+	 * @param array $components
+	 * @param array $args
+	 * @return array
+	 */
 	public function applyComponentsFilters( array $components, array $args = array() ): array {
 		return apply_filters( self::PREFIX . 'filter-components', $components, $args );
 	}
 
-	public function addComponentsFilter( $callback, $priority = 10 ) {
+	/**
+	 * @param $callback
+	 * @param int      $priority
+	 * @return bool|true|void
+	 */
+	public function addComponentsFilter( $callback, int $priority = 10 ) {
 		return add_filter( self::PREFIX . 'filter-components', $callback, $priority, 2 );
 	}
 
+	/**
+	 * @param array $security
+	 * @param array $args
+	 * @return array
+	 */
 	public function applySecurityFilters( array $security, array $args = array() ): array {
 		return apply_filters( self::PREFIX . 'filter-security', $security, $args );
 	}
 
-	public function addSecurityFilter( $callback, $priority = 10 ) {
+	/**
+	 * @param $callback
+	 * @param int      $priority
+	 * @return bool|true|void
+	 */
+	public function addSecurityFilter( $callback, int $priority = 10 ) {
 		return add_filter( self::PREFIX . 'filter-security', $callback, $priority, 2 );
 	}
 
-	public function applyTagFilters( Tag $tag, array $args = array() ): Tag {
-		return apply_filters( self::PREFIX . 'filter-tag', $tag, $args );
+	/**
+	 * @param Tag[] $tags
+	 * @param array $args
+	 * @return Tag[]
+	 */
+	public function applyTagsFilters( array $tags, array $args = array() ): array {
+		return apply_filters( self::PREFIX . 'filter-tags', $tags, $args );
 	}
 
-	public function addTagFilter( $callback, $priority = 10 ) {
-		return add_filter( self::PREFIX . 'filter-tag', $callback, $priority, 2 );
+	/**
+	 * @param $callback
+	 * @param int      $priority
+	 * @return bool|true|void
+	 */
+	public function addTagsFilter( $callback, int $priority = 10 ) {
+		return add_filter( self::PREFIX . 'filter-tags', $callback, $priority, 2 );
 	}
 }

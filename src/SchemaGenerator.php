@@ -42,11 +42,6 @@ class SchemaGenerator {
 		return $this->hooks->applyInfoFilters( $info, $hookArgs );
 	}
 
-	private function generateServer( array $hookArgs ): Server {
-		$server = new Server( $this->siteInfo['siteurl'] . '/wp-json' );
-		return $this->hooks->applyServerFilters( $server, $hookArgs );
-	}
-
 	public function generate( $requestedNamespace ): array {
 		$namespaces = $requestedNamespace === 'all' ? $this->restServer->get_namespaces() : array( $requestedNamespace );
 
@@ -58,7 +53,7 @@ class SchemaGenerator {
 			'openapi'    => '3.1.0',
 			'info'       => $this->generateInfo( $hookArgs )->toArray(),
 			'servers'    => array(
-				$this->generateServer( $hookArgs )->toArray(),
+				new Server( $this->siteInfo['siteurl'] . '/wp-json' ),
 			),
 			'tags'       => array(),
 			'security'   => array(),
@@ -87,20 +82,25 @@ class SchemaGenerator {
 			}
 		}
 
+		$base['servers'] = array_map(
+			function( Server $server ) {
+				return $server->toArray();
+			},
+			$this->hooks->applyServersFilters( $base['servers'], $hookArgs )
+		);
+
 		$base['paths'] = array_map(
 			function( $path ) use ( $hookArgs ) {
-				$path = $this->hooks->applyPathFilters( $path, $hookArgs );
 				return $path->toArray();
 			},
-			$paths
+			$this->hooks->applyPathsFilters( $paths, $hookArgs )
 		);
 
 		$base['tags'] = array_map(
 			function ( Tag $tag ) use ( $hookArgs ) {
-				$tag = $this->hooks->applyTagFilters( $tag, $hookArgs );
 				return $tag->toArray();
 			},
-			$base['tags']
+			$this->hooks->applyTagsFilters( $base['tags'] )
 		);
 
 		$base['components'] = $this->hooks->applyComponentsFilters( $base['components'], $hookArgs );

@@ -16,9 +16,13 @@ class AddCallbackInfoToDescription {
 	public function __construct( Filters $hooks, View $view, array $routes ) {
 		$this->callbackFinder = new CallbackFinder( $routes );
 
-		$hooks->addPathFilter(
-			function( Path $path ) {
-				return $this->addCallbackInfo( $path );
+		$hooks->addPathsFilter(
+			function( array $paths ) {
+				foreach ( $paths as $path ) {
+					$this->addCallbackInfo( $path );
+				}
+
+				return $paths;
 			}
 		);
 		$this->view = $view;
