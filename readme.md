@@ -52,13 +52,15 @@ You can use individual filters by calling [add_filter](https://developer.wordpre
 You can also use [Filters](./src/Filters.php).
 
 ```php
-Filters::getInstance()->AddPathFilter(function(Path $path, array $args) {
+Filters::getInstance()->AddPathsFilter(function(array $paths, array $args) {
     if ($args['requestedNamespace'] === 'all') {
-      foreach ($path->getOperations() as $operation) {
-          $operation->setDescription("test description");
-      }
+    	foreach ($paths as $path) {
+    		foreach($path->getOperations() as $operation) {
+    			$operation->setDescription('test');
+    		}
+    	}
     }
-    return $path;
+    return $paths;
 });
 ```
 
