@@ -47,6 +47,23 @@ class WPOpenAPI {
 		add_rewrite_rule( '^' . 'wp-json-openapi/?', 'index.php?openapi=schema', 'top' );
 	}
 
+	public function registerRestAPIEndpoint() {
+		register_rest_route(
+			'wp-openapi/v1',
+			'schema',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'sendOpenAPISchema' ),
+				'permission_callback' => '__return_true',
+				'args'                => array(
+					'namespace' => array(
+						'type' => 'string',
+					),
+				),
+			)
+		);
+	}
+
 	private function getNamespace() {
 		$namespace = 'all';
 		if ( isset( $_GET['namespace'] ) ) {
@@ -97,10 +114,12 @@ class WPOpenAPI {
 
 	public function sendOpenAPISchema() {
 		global $wp_version;
+
 		$namespace = 'all';
 		if ( isset( $_GET['namespace'] ) ) {
 			$namespace = $_GET['namespace'];
 		}
+
 		$siteInfo = array(
 			'admin_email'     => get_option( 'admin_email' ),
 			'blogname'        => get_option( 'blogname' ),
@@ -143,11 +162,19 @@ class WPOpenAPI {
 			$infoJs['version']
 		);
 
+		$permalink_structure = get_option( 'permalink_structure' );
+		$namespace           = $this->getNamespace();
+		if ( $permalink_structure === '' ) {
+			$endpoint = site_url( '?rest_route=/wp-openapi/v1/schema&namespace=' . $namespace );
+		} else {
+			$endpoint = site_url( '/wp-json-openapi?namespace=' . $namespace );
+		}
+
 		$data = array(
 			'options'  => array(
 				'hideTryIt' => SettingsPage::getOption( 'enableTryIt' ) === null,
 			),
-			'endpoint' => site_url( '/wp-json-openapi?namespace=' . $this->getNamespace() ),
+			'endpoint' => $endpoint,
 		);
 
 		if ( is_admin() && current_user_can( 'edit_posts' ) ) {
@@ -156,7 +183,7 @@ class WPOpenAPI {
 			$data['options']['hideTryIt'] = true;
 		}
 
-		$data = apply_filters('wp-openapi-filters-elements-props', $data);
+		$data = apply_filters( 'wp-openapi-filters-elements-props', $data );
 
 		wp_localize_script( 'wp-openapi-js', 'wpOpenApi', $data );
 	}
@@ -176,6 +203,7 @@ register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 
 add_action( 'admin_menu', array( $wpOpenAPI, 'addAdminMenu' ) );
 add_action( 'init', array( $wpOpenAPI, 'registerRoutes' ) );
+add_action( 'rest_api_init', array( $wpOpenAPI, 'registerRestAPIEndpoint' ) );
 add_action(
 	'wp',
 	function () use ( $wpOpenAPI ) {
