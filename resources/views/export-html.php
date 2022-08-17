@@ -20,7 +20,7 @@
 <script>
     (async () => {
         const docs = document.getElementById('docs');
-        docs.apiDescriptionDocument = <?php echo $schemaJson?>
+        docs.apiDescriptionDocument = <?php echo esc_html($schemaJson)?>
     })();
 </script>
 </body>
