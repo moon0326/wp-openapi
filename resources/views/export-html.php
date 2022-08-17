@@ -4,9 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?php echo esc_html($title)?></title>
-    <!-- Embed elements Elements via Web Component -->
-    <script src="https://unpkg.com/@stoplight/elements/web-components.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements/styles.min.css">
+    <?php
+        global $wp_scripts;
+        global $wp_styles;
+        $wp_scripts->print_inline_script('elements-js');
+        $wp_styles->print_inline_style('elements-style');
+    ?>
 </head>
 <body>
 
