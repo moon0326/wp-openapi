@@ -66,10 +66,14 @@ class WPOpenAPI {
 
 	private function getNamespace() {
 		$namespace = 'all';
-		if ( isset( $_GET['namespace'] ) ) {
-			$namespace = $_GET['namespace'];
-		} elseif ( isset( $_GET['page'] ) && str_contains( $_GET['page'], 'wp-openapi/' ) ) {
-			$namespace = str_replace( 'wp-openapi/', '', $_GET['page'] );
+
+		$requestedNamespace = get_query_var( 'namespace' );
+		$requestedPage      = get_query_var( 'page' );
+
+		if ( $requestedNamespace ) {
+			$namespace = $requestedNamespace;
+		} elseif ( $requestedPage && str_contains( $requestedPage, 'wp-openapi/' ) ) {
+			$namespace = str_replace( 'wp-openapi/', '', $requestedPage );
 		}
 		return $namespace;
 	}
@@ -115,11 +119,6 @@ class WPOpenAPI {
 	public function sendOpenAPISchema() {
 		global $wp_version;
 
-		$namespace = 'all';
-		if ( isset( $_GET['namespace'] ) ) {
-			$namespace = $_GET['namespace'];
-		}
-
 		$siteInfo = array(
 			'admin_email'     => get_option( 'admin_email' ),
 			'blogname'        => get_option( 'blogname' ),
@@ -136,7 +135,7 @@ class WPOpenAPI {
 		}
 
 		$schemaGenerator = new SchemaGenerator( $hooks, $siteInfo, $restServer );
-		wp_send_json( $schemaGenerator->generate( $namespace ) );
+		wp_send_json( $schemaGenerator->generate( $this->getNamespace() ) );
 	}
 
 	public function enqueueScritps() {
@@ -202,7 +201,14 @@ register_activation_hook(
 register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 
 add_action( 'admin_menu', array( $wpOpenAPI, 'addAdminMenu' ) );
-add_action( 'init', array( $wpOpenAPI, 'registerRoutes' ) );
+add_action(
+	'init',
+	function() use ( $wpOpenAPI ) {
+		global $wp;
+		$wp->add_query_var( 'namespace' );
+		$wpOpenAPI->registerRoutes();
+	}
+);
 add_action( 'rest_api_init', array( $wpOpenAPI, 'registerRestAPIEndpoint' ) );
 add_action(
 	'wp',
