@@ -22,7 +22,7 @@ class ExportAsHTML {
 		$view = new View( 'export-html' );
 		$html = $view->render(
 			array(
-				'schemaJson' => json_encode( $schemaGenerator->generate( $namespace ) ),
+				'schema' => $schemaGenerator->generate( $namespace ),
 				'title'      => $siteInfo['blogname'],
 			)
 		);
