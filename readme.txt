@@ -2,7 +2,7 @@
 Contributors: moon0326
 Tags: documentation, rest api, api, openapi, swagger
 Requires at least: 5.8
-Tested up to: 5.8
+Tested up to: 6.0
 Requires PHP: 7.1
 Stable tag: 1.0.0
 License: GPLv3

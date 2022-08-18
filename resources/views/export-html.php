@@ -3,10 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?=$title?></title>
-    <!-- Embed elements Elements via Web Component -->
-    <script src="https://unpkg.com/@stoplight/elements/web-components.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements/styles.min.css">
+    <title><?php echo esc_html($title)?></title>
+    <?php
+        global $wp_scripts;
+        global $wp_styles;
+        $wp_scripts->print_inline_script('elements-js');
+        $wp_styles->print_inline_style('elements-style');
+    ?>
 </head>
 <body>
 
@@ -20,7 +23,7 @@
 <script>
     (async () => {
         const docs = document.getElementById('docs');
-        docs.apiDescriptionDocument = <?=$schemaJson?>
+        docs.apiDescriptionDocument = <?php echo wp_json_encode($schema)?>
     })();
 </script>
 </body>

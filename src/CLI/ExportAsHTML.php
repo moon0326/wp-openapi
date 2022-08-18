@@ -2,6 +2,7 @@
 
 namespace WPOpenAPI\CLI;
 
+use WPOpenAPI;
 use WPOpenAPI\Filters;
 use WPOpenAPI\SchemaGenerator;
 use WPOpenAPI\View;
@@ -9,6 +10,16 @@ use WPOpenAPI\View;
 class ExportAsHTML {
 
 	public function execute( $namespace, $saveTo ) {
+		$scriptPath = WPOpenAPI::pluginPath( 'resources/elements/web-components.min.js' );
+		$stylePath  = WPOpenAPI::pluginPath( 'resources/elements/styles.min.css' );
+		$scripts    = file_get_contents( $scriptPath );
+		$styles     = file_get_contents( $stylePath );
+
+		wp_enqueue_script( 'elements-js', $scriptPath );
+		wp_enqueue_style( 'elements-style', $stylePath );
+		wp_add_inline_script( 'elements-js', $scripts );
+		wp_add_inline_style( 'elements-style', $styles );
+
 		global $wp_version;
 		$siteInfo        = array(
 			'admin_email'     => get_option( 'admin_email' ),
@@ -22,8 +33,8 @@ class ExportAsHTML {
 		$view = new View( 'export-html' );
 		$html = $view->render(
 			array(
-				'schemaJson' => json_encode( $schemaGenerator->generate( $namespace ) ),
-				'title'      => $siteInfo['blogname'],
+				'schema' => $schemaGenerator->generate( $namespace ),
+				'title'  => $siteInfo['blogname'],
 			)
 		);
 
@@ -32,3 +43,4 @@ class ExportAsHTML {
 		\WP_CLI::success( "Generated {$saveTo}" );
 	}
 }
+
