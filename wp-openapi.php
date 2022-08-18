@@ -67,14 +67,15 @@ class WPOpenAPI {
 	private function getNamespace() {
 		$namespace = 'all';
 
-		$requestedNamespace = get_query_var( 'namespace' );
-		$requestedPage      = get_query_var( 'page' );
+		$requestedNamespace = isset( $_GET['namespace'] ) ? wp_unslash( $_GET['namespace'] ) : $namespace;
+		$requestedPage      = isset( $_GET['page'] ) ? wp_unslash( $_GET['page'] ) : null;
 
 		if ( $requestedNamespace ) {
 			$namespace = $requestedNamespace;
 		} elseif ( $requestedPage && str_contains( $requestedPage, 'wp-openapi/' ) ) {
 			$namespace = str_replace( 'wp-openapi/', '', $requestedPage );
 		}
+
 		return $namespace;
 	}
 
@@ -204,8 +205,6 @@ add_action( 'admin_menu', array( $wpOpenAPI, 'addAdminMenu' ) );
 add_action(
 	'init',
 	function() use ( $wpOpenAPI ) {
-		global $wp;
-		$wp->add_query_var( 'namespace' );
 		$wpOpenAPI->registerRoutes();
 	}
 );
