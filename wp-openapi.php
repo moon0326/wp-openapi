@@ -67,8 +67,8 @@ class WPOpenAPI {
 	private function getNamespace() {
 		$namespace = 'all';
 
-		$requestedNamespace = isset( $_GET['namespace'] ) ? wp_unslash( $_GET['namespace'] ) : null;
-		$requestedPage      = isset( $_GET['page'] ) ? wp_unslash( $_GET['page'] ) : null;
+		$requestedNamespace = isset( $_GET['namespace'] ) ? str_replace( 'http://', '', sanitize_url( $_GET['namespace'], 'http' ) ) : null;
+		$requestedPage      = isset( $_GET['page'] ) ? str_replace( 'http://', '', sanitize_url( $_GET['page'], 'http' ) ) : null;
 
 		if ( $requestedNamespace ) {
 			$namespace = $requestedNamespace;
