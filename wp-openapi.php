@@ -91,6 +91,9 @@ class WPOpenAPI {
 		add_submenu_page( $slug, 'All', 'All', 'read', $slug, $callback );
 
 		foreach ( rest_get_server()->get_namespaces() as $namespace ) {
+			if (strpos($namespace, 'wp-openapi') === 0) {
+				continue;
+			}
 			add_submenu_page(
 				$slug,
 				$namespace,
