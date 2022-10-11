@@ -197,8 +197,7 @@ $wpOpenAPI = new WPOpenAPI();
 register_activation_hook(
 	__FILE__,
 	function () use ( $wpOpenAPI ) {
-		$wpOpenAPI->registerRoutes();
-		flush_rewrite_rules();
+		define( 'WP_OPENAPI_ACTIVATION', true );
 	}
 );
 
@@ -209,6 +208,10 @@ add_action(
 	'init',
 	function() use ( $wpOpenAPI ) {
 		$wpOpenAPI->registerRoutes();
+
+		if ( defined( 'WP_OPENAPI_ACTIVATION' ) ) {
+			flush_rewrite_rules();
+		}
 	}
 );
 add_action( 'rest_api_init', array( $wpOpenAPI, 'registerRestAPIEndpoint' ) );
