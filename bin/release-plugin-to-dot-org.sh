@@ -18,7 +18,7 @@ mkdir trunk
 
 # Download and unzip the plugin into trunk/.
 echo "Downloading and unzipping the plugin"
-PLUGIN_URL=https://github.com/moon0326/wp-openapi/releases/download/v${VERSION}-plugin/wp-openapi.zip
+PLUGIN_URL=https://github.com/moon0326/wp-openapi/releases/download/v${VERSION}/wp-openapi.zip
 curl -Lo wp-openapi.zip $PLUGIN_URL
 unzip wp-openapi.zip -d trunk
 rm wp-openapi.zip
