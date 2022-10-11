@@ -1,6 +1,6 @@
 {
-  "name": "wp-swaggerui",
-  "version": "1.0.0",
+  "name": "wp-openapi",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
