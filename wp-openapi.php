@@ -197,7 +197,7 @@ $wpOpenAPI = new WPOpenAPI();
 register_activation_hook(
 	__FILE__,
 	function () use ( $wpOpenAPI ) {
-		define( 'WP_OPENAPI_ACTIVATION', true );
+		update_option( 'wp-openapi-rewrite-flushed', false );
 	}
 );
 
@@ -209,8 +209,9 @@ add_action(
 	function() use ( $wpOpenAPI ) {
 		$wpOpenAPI->registerRoutes();
 
-		if ( defined( 'WP_OPENAPI_ACTIVATION' ) ) {
+		if ( !get_option( 'wp-openapi-rewrite-flushed' ) ) {
 			flush_rewrite_rules();
+			update_option( 'wp-openapi-rewrite-flushed', true );
 		}
 	}
 );
