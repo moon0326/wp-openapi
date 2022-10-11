@@ -9,7 +9,7 @@
  *
  * Plugin Name: WP OpenAPI
  * Plugin URI: https://github.com/moon0326/wp-openapi
- * Version:     1.0.5
+ * Version:     1.0.6
  * Author:      Moon K
  * Author URI: https://github.com/moon0326
  * License:     GPL v2 or later
