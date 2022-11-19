@@ -62,7 +62,15 @@ class Operation {
 	}
 
 	public function addResponse( Response $response ) {
-		$this->responses[] = $response;
+		$this->responses[$response->getCode()] = $response;
+	}
+
+	public function getResponse( $code ) {
+	    if ( isset( $this->responses[$code] ) ) {
+			return $this->responses[$code];
+		}
+
+		return null;
 	}
 
 	public function addParameter( Parameter $parameter ) {
