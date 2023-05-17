@@ -53,7 +53,7 @@ class SchemaGenerator {
 			'openapi'    => '3.1.0',
 			'info'       => $this->generateInfo( $hookArgs )->toArray(),
 			'servers'    => array(
-				new Server( $this->siteInfo['siteurl'] . '/wp-json' ),
+				new Server( $this->siteInfo['siteurl'] . '/' . rest_get_url_prefix() ),
 			),
 			'tags'       => array(),
 			'security'   => array(),
