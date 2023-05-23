@@ -25,7 +25,7 @@ class ExportAsHTML {
 			'admin_email'     => get_option( 'admin_email' ),
 			'blogname'        => get_option( 'blogname' ),
 			'blogdescription' => get_option( 'blogdescription' ),
-			'siteurl'         => get_option( 'siteurl' ),
+			'home'            => get_option( 'home' ),
 			'wp_version'      => $wp_version,
 		);
 		$schemaGenerator = new SchemaGenerator( Filters::getInstance(), $siteInfo, rest_get_server() );
@@ -43,4 +43,3 @@ class ExportAsHTML {
 		\WP_CLI::success( "Generated {$saveTo}" );
 	}
 }
-

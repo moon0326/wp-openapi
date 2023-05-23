@@ -127,7 +127,7 @@ class WPOpenAPI {
 			'admin_email'     => get_option( 'admin_email' ),
 			'blogname'        => get_option( 'blogname' ),
 			'blogdescription' => get_option( 'blogdescription' ),
-			'siteurl'         => get_option( 'siteurl' ),
+			'home'            => get_option( 'home' ),
 			'wp_version'      => $wp_version,
 		);
 

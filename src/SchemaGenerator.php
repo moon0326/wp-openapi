@@ -16,7 +16,7 @@ class SchemaGenerator {
 
 	/**
 	 * @param Filters        $hooks
-	 * @param array          $siteInfo Array containing admin_email, blogname, blogdescription, siteurl, wp_version options
+	 * @param array          $siteInfo Array containing admin_email, blogname, blogdescription, home, wp_version options
 	 * @param WP_REST_Server $restServer
 	 */
 	public function __construct( Filters $hooks, array $siteInfo, WP_REST_Server $restServer ) {
@@ -28,7 +28,7 @@ class SchemaGenerator {
 	private function generateInfo( array $hookArgs ): Info {
 		$contact = new Contact(
 			$this->siteInfo['blogname'],
-			$this->siteInfo['siteurl'],
+			$this->siteInfo['home'],
 			$this->siteInfo['admin_email']
 		);
 
@@ -53,7 +53,7 @@ class SchemaGenerator {
 			'openapi'    => '3.1.0',
 			'info'       => $this->generateInfo( $hookArgs )->toArray(),
 			'servers'    => array(
-				new Server( $this->siteInfo['siteurl'] . '/' . rest_get_url_prefix() ),
+				new Server( $this->siteInfo['home'] . '/' . rest_get_url_prefix() ),
 			),
 			'tags'       => array(),
 			'security'   => array(),
