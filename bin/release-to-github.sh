@@ -22,7 +22,7 @@ if [ "$(echo "${PROCEED:-n}" | tr "[:upper:]" "[:lower:]")" != "y" ]; then
   exit 1
 fi
 
-echo "What version do you want to release as? (make sure this matches the version in woocommerce-admin-test-helper.php)"
+echo "What version do you want to release as? (make sure this matches the version in wp-openapi.php)"
 read -r VERSION
 
 CURRENTBRANCH="$(git rev-parse --abbrev-ref HEAD)"
