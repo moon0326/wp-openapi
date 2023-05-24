@@ -4,7 +4,7 @@ namespace WPOpenAPI;
 
 class SettingsPage {
 
-	const PAGE_ID   = 'wp-oepnapi-settings';
+	const PAGE_ID   = 'wp-openapi-settings';
 	const GROUP_ID  = 'wp-openapi';
 	const OPTION_ID = 'wp-openapi-options';
 
@@ -57,7 +57,7 @@ class SettingsPage {
 					add_query_arg(
 						'page',
 						'wp-openapi-settings',
-						get_admin_url() . 'admin.php'
+						get_admin_url() . 'options-general.php'
 					)
 				);
 				// Create the link.
