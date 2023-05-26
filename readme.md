@@ -27,12 +27,12 @@ You can enable them in `Settings -> WP OpenAPI`
 
 **Enable Try It**: It enables [Elements](https://github.com/stoplightio/elements)'s TryIt feature. It lets you try the REST API endpoints.
 
-<img src='./screenshots/tryit.jpg' width='300'>
+
 
 **Enable Callback Discovery**: It shows you callback information about the endpoint you're viewing.
 It comes in handy if you want to look at the source code of the endpoint.
 
-<img src='./screenshots/callback.jpg' width='300'>
+
 
 ## Extending
 
