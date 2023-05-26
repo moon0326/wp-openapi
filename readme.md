@@ -9,11 +9,6 @@ It has two main features.
 
 ## Screenshots
 
-![screenshot](./assets/screenshot-1.jpg)
-
-![screenshot](./assets/screenshot-2.jpg)
-
-
 ![screenshot](./assets/screenshot-3.jpg)
 
 
