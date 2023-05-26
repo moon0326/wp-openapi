@@ -95,10 +95,11 @@ Prerequisites:
 - [Hub](https://github.com/github/hub)
 - Write access to this repository
 
-1. Update the plugin version in [wp-openapi.php](https://github.com/moon0326/wp-openapi/blob/main/wp-openapi.php) and [readme.txt](https://github.com/moon0326/wp-openapi/blob/main/readme.txt#L7)
-2. Push the version changes.
-3. Run `./bin/release-to-github.sh`. This will create a new release in Github
-4. Run `./bin/release-plugin-to-dot-org.sh` to release the new version to wp.org
+1. Run both `npm i` and `composer install`
+2. Update the plugin version in [wp-openapi.php](https://github.com/moon0326/wp-openapi/blob/main/wp-openapi.php) and [readme.txt](https://github.com/moon0326/wp-openapi/blob/main/readme.txt#L7)
+3. Push the version changes.
+4. Run `./bin/release-to-github.sh`. This will create a new release in Github
+5. Run `./bin/release-plugin-to-dot-org.sh` to release the new version to wp.org
 
 
 You can also build a zip file for testing purposes by runnning `./bin/build-zip.sh`
