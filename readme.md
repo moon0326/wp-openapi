@@ -94,6 +94,8 @@ Prerequisites:
 - [Hub](https://github.com/github/hub)
 - Write access to this repository
 
+1. Update the plugin version 
+
 Simply run `./bin/release-to-github.sh`
 
 

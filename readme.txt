@@ -4,11 +4,17 @@ Tags: documentation, rest api, api, openapi, swagger
 Requires at least: 5.8
 Tested up to: 6.0
 Requires PHP: 7.1
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 WP OpenAPI is a WordPress plugin to provide the OpenAPI spec and a beautifu viewer for your WordPress REST API.
+
+=== Screenshots ==
+
+1. Main screen
+2. Try It enabled
+3. Callback discovery enabled
 
 === Description ===
 
