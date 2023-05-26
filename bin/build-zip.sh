@@ -10,6 +10,7 @@ echo "Creating archive... 🎁"
 zip -r "wp-openapi.zip" \
 	wp-openapi.php \
 	resources \
+	assets \
 	vendor \
 	composer.json \
 	readme.md \
