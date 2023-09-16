@@ -19,6 +19,7 @@
  */
 
 use WPOpenAPI\CLI\ExportAsHTML;
+use WPOpenAPI\CLI\ExportAsJSON;
 use WPOpenAPI\Filters;
 use WPOpenAPI\Filters\AddCallbackInfoToDescription;
 use WPOpenAPI\SchemaGenerator;
@@ -233,6 +234,14 @@ add_action(
 			function ( $args, $assoc_args ) {
 				$namespace = $assoc_args['namespace'];
 				$saveTo    = $assoc_args['save_to'];
+				$format    = $assoc_args['format'];
+
+				if ( $format === 'json' ) {
+					$command = new ExportAsJSON();
+					$command->execute( $namespace, $saveTo );
+					return;
+				}
+
 				$command   = new ExportAsHTML();
 				$command->execute( $namespace, $saveTo );
 			},
@@ -248,6 +257,13 @@ add_action(
 						'type'     => 'assoc',
 						'optional' => false,
 					),
+					array(
+						'name'     => 'format',
+						'type'     => 'assoc',
+						'optional' => true,
+						'default'  => 'html',
+						'options'  => array( 'html', 'json' ),
+					)
 				),
 			)
 		);
