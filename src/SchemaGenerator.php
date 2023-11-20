@@ -50,7 +50,7 @@ class SchemaGenerator {
 		);
 
 		$base = array(
-			'openapi'    => '3.1.0',
+			'openapi'    => '3.0.0',
 			'info'       => $this->generateInfo( $hookArgs )->toArray(),
 			'servers'    => array(
 				new Server( $this->siteInfo['home'] . '/' . rest_get_url_prefix() ),
