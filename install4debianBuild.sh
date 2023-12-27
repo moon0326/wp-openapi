@@ -16,3 +16,9 @@ npm i
 
 # composer install
 php composer.phar install
+
+# prepare npm build
+npx --yes browserslist@latest --update-db 
+
+# build the rest
+npm run build
