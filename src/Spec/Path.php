@@ -71,6 +71,7 @@ class Path {
 			foreach ( $arg['methods'] as $method => $value ) {
 				$description = $arg['description'] ?? '';
 				$method      = strtolower( $method );
+				if($method == 'options') continue;
 				$op          = new Operation( $method, $responses );
 				$op->setDescription( $description );
 				$op->generateParametersFromRouteArgs( $method, $arg['args'], $this->pathVariables, $this->path );
