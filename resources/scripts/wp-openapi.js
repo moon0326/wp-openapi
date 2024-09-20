@@ -7,23 +7,27 @@ import "@stoplight/elements/styles.min.css";
 
 const elementsAppContainer = document.getElementById("elements-app");
 
+
 const { fetch: originalFetch } = window;
 
-window.fetch = async (...args) => {
-  let [resource, config] = args;
+window.fetch = (resource, config) => {
+  if ( ! config ) {
+    config = {};
+  }
+
+  if ( ! config.headers ) {
+    config.headers = new Headers();
+  }
 
   if (
     resource.indexOf("wp-json") !== false &&
     config?.headers &&
     config.headers["X-WP-Nonce"] === undefined
   ) {
-    config.headers["X-WP-Nonce"] = wpOpenApi.nonce;
+    config.headers["X-WP-Nonce"] = window.wpOpenApi.nonce;
   }
 
-  const response = await originalFetch(resource, config);
-
-  // response interceptor here
-  return response;
+  return originalFetch( resource, config );
 };
 
 const elements = (
