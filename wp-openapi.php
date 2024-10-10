@@ -161,8 +161,7 @@ class WPOpenAPI {
 			$infoJs['version']
 		);
 
-		$namespace	= $this->getNamespace();
-		$endpoint 	= add_query_arg( 'namespace', $namespace, rest_url( 'wp-openapi/v1/schema' ) );
+		$endpoint 	= add_query_arg( 'namespace', $this->getNamespace(), rest_url( 'wp-openapi/v1/schema' ) );
 
 		$data = array(
 			'options'  => array(
