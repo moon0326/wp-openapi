@@ -169,9 +169,9 @@ class WPOpenAPI {
 		$permalink_structure = get_option( 'permalink_structure' );
 		$namespace           = $this->getNamespace();
 		if ( $permalink_structure === '' ) {
-			$endpoint = site_url( '?rest_route=/wp-openapi/v1/schema&namespace=' . $namespace );
+			$endpoint = home_url( '?rest_route=/wp-openapi/v1/schema&namespace=' . $namespace );
 		} else {
-			$endpoint = site_url( '/wp-json-openapi?namespace=' . $namespace );
+			$endpoint = home_url( '/wp-json-openapi?namespace=' . $namespace );
 		}
 
 		$data = array(
