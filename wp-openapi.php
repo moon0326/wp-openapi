@@ -55,7 +55,9 @@ class WPOpenAPI {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'sendOpenAPISchema' ),
-				'permission_callback' => apply_filters( Filters::PREFIX . 'filter-schema-endpoint-permission', '__return_true' ),
+				'permission_callback' => function() {
+                    return apply_filters( Filters::PREFIX . 'filter-schema-endpoint-permission', true );
+                },
 				'args'                => array(
 					'namespace' => array(
 						'type' => 'string',
