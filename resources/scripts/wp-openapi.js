@@ -6,8 +6,6 @@ import { API } from "@stoplight/elements";
 import "@stoplight/elements/styles.min.css";
 
 const elementsAppContainer = document.getElementById("elements-app");
-
-
 const { fetch: originalFetch } = window;
 
 window.fetch = (resource, config) => {
@@ -22,9 +20,9 @@ window.fetch = (resource, config) => {
   if (
     resource.indexOf("wp-json") !== false &&
     config?.headers &&
-    config.headers["X-WP-Nonce"] === undefined
+    config.headers.get('X-WP-Nonce') === null
   ) {
-    config.headers["X-WP-Nonce"] = window.wpOpenApi.nonce;
+	config.headers.set("X-WP-Nonce", window.wpOpenApi.nonce);
   }
 
   return originalFetch( resource, config );
