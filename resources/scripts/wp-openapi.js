@@ -8,6 +8,15 @@ import "@stoplight/elements/styles.min.css";
 const elementsAppContainer = document.getElementById("elements-app");
 const { fetch: originalFetch } = window;
 
+function normalizeHeaders(headers) {
+  if (headers instanceof Headers) {
+    return headers;
+  }
+  
+  // Convert plain object or array of key-value pairs to Headers
+  return new Headers(headers);
+}
+
 window.fetch = (resource, config) => {
   if ( ! config ) {
     config = {};
@@ -15,6 +24,8 @@ window.fetch = (resource, config) => {
 
   if ( ! config.headers ) {
     config.headers = new Headers();
+  } else {
+	config.headers = normalizeHeaders(config.headers);
   }
 
   if (
@@ -24,6 +35,7 @@ window.fetch = (resource, config) => {
   ) {
 	config.headers.set("X-WP-Nonce", window.wpOpenApi.nonce);
   }
+
 
   return originalFetch( resource, config );
 };
