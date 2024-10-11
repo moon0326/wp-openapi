@@ -43,6 +43,11 @@ class WPOpenAPI {
 		return plugin_dir_url( __FILE__ ) . $path;
 	}
 
+    public function registerRoutes() {
+        add_rewrite_tag( '%openapi%', '([^&]+)' );
+        add_rewrite_rule( '^' . 'wp-json-openapi/?', 'index.php?openapi=schema', 'top' );
+    }
+
 	public function registerRestAPIEndpoint() {
 		register_rest_route(
 			'wp-openapi/v1',
@@ -184,12 +189,32 @@ class WPOpenAPI {
 
 $wpOpenAPI = new WPOpenAPI();
 
+register_activation_hook(
+    __FILE__,
+    function () use ( $wpOpenAPI ) {
+        update_option( 'wp-openapi-rewrite-flushed', false );
+    }
+);
+
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+
 add_action( 'admin_menu', array( $wpOpenAPI, 'addAdminMenu' ) );
+add_action(
+    'init',
+    function() use ( $wpOpenAPI ) {
+        $wpOpenAPI->registerRoutes();
+
+        if ( !get_option( 'wp-openapi-rewrite-flushed' ) ) {
+            flush_rewrite_rules();
+            update_option( 'wp-openapi-rewrite-flushed', true );
+        }
+    }
+);
 add_action( 'rest_api_init', array( $wpOpenAPI, 'registerRestAPIEndpoint' ) );
 add_action(
 	'wp',
 	function () use ( $wpOpenAPI ) {
-		if ( get_query_var( 'openapi' ) === 'schema' ) {
+		if ( get_query_var( 'openapi' ) === 'schema' && apply_filters( Filters::PREFIX . 'filter-schema-endpoint-permission', true ) === true ) {
 			$wpOpenAPI->sendOpenAPISchema();
 		}
 	}
