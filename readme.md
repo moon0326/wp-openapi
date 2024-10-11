@@ -48,6 +48,8 @@ WP OpenAPI has the following filters to modify the output.
 | wp-openapi-filter-security   |                 Array                 | AddSecurityFilter         |
 | wp-oepnapi-filter-components |                 Array                 | AddComponentsFilter       |
 | wp-openapi-filters-elements-props | Array||
+| wp-openapi-filters-schema-endpoint-permission | true||
+
 You can use individual filters by calling [add_filter](https://developer.wordpress.org/reference/functions/add_filter/).
 
 You can also use [Filters](./src/Filters.php).
