@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?php echo esc_html($title)?></title>
-	<script>
+    <script>
     <?php
         global $wp_scripts;
        	echo $wp_scripts->get_inline_script_data('elements-js');
     ?>
-	</script>
+    </script>
     <?php
         global $wp_styles;
         $wp_styles->print_inline_style('elements-style');
