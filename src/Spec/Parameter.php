@@ -53,7 +53,7 @@ class Parameter {
 		);
 
 		if ( $this->default ) {
-			$data['default'] = $this->default;
+			$data['schema']->default = $this->default;
 		}
 
 		if ( count( $this->jsonSchemaDefinitions ) ) {
