@@ -69,7 +69,7 @@ Filters::getInstance()->addPathsFilter(function(array $paths, array $args) {
 
 Since there is no central place to add `securitySchemes` in WordPress, you can use the `wp-openapi-filter-components` filter to add them.
 
-```
+```php
  add_filter('wp-openapi-filter-components', function(array $components) {
 	$components['securitySchemes'] = [
 		'api_key' => [
@@ -84,7 +84,7 @@ Since there is no central place to add `securitySchemes` in WordPress, you can u
 ```
 Now, you can use the `security` field in your REST API definition.
 
-```
+```php
 register_rest_route(
 	$this->namespace,
 	'/' . $this->rest_base . '/test',
