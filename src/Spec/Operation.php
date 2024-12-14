@@ -218,7 +218,11 @@ class Operation {
 				$values['type'] = 'string';
 			}
 
-			$parameter               = new Parameter( $in, $name, $values['type'], $values['description'], $values['required'] );
+			$parameter = new Parameter( $in, $name, $values['type'], $values['description'], $values['required'] );
+			if ( isset( $values['default'] ) ) {
+				$parameter->setDefault( $values['default'] );
+			}
+			
 			$supportedJsonSchemaSets = array_keys( $this->jsonSchemaSets );
 			foreach ( $values as $key => $value ) {
 				if ( in_array( $key, $supportedJsonSchemaSets ) ) {
