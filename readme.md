@@ -38,16 +38,15 @@ It comes in handy if you want to look at the source code of the endpoint.
 
 WP OpenAPI has the following filters to modify the output.
 
-| Name                         |               Argument                | Equivalent Filters Method |
-| ---------------------------- | :-----------------------------------: | ------------------------- |
-| wp-openapi-filter-operations  | [Operation[]](./src/Spec/Operation.php) | AddOperationsFilter        |
-| wp-openapi-filter-paths       |      [Path[]](./src/Spec/Path.php)      | AddPathsFilter             |
-| wp-openapi-filter-servers     |    [Server[]](./src/Spec/Server.php)    | AddServersFilter           |
-| wp-openapi-filter-info       |      [Info](./src/Spec/Info.php)      | AddInfoFilter             |
-| wp-openapi-filter-tags        |       [Tag[]](./src/Spec/Tag.php)        | AddTagsFilter              |
-| wp-openapi-filter-security   |                 Array                 | AddSecurityFilter         |
-| wp-oepnapi-filter-components |                 Array                 | AddComponentsFilter       |
-| wp-openapi-filters-elements-props | Array||
+| Name                                          |               Argument                | Equivalent Filters Method |
+|-----------------------------------------------| :-----------------------------------: | ------------------------- |
+| wp-openapi-filter-operations                  | [Operation[]](./src/Spec/Operation.php) | AddOperationsFilter        |
+| wp-openapi-filter-paths                       |      [Path[]](./src/Spec/Path.php)      | AddPathsFilter             |
+| wp-openapi-filter-servers                     |    [Server[]](./src/Spec/Server.php)    | AddServersFilter           |
+| wp-openapi-filter-info                        |      [Info](./src/Spec/Info.php)      | AddInfoFilter             |
+| wp-openapi-filter-tags                        |       [Tag[]](./src/Spec/Tag.php)        | AddTagsFilter              |
+| wp-openapi-filter-components                  |                 Array                 | AddComponentsFilter       |
+| wp-openapi-filters-elements-props             | Array||
 | wp-openapi-filters-schema-endpoint-permission | true||
 
 You can use individual filters by calling [add_filter](https://developer.wordpress.org/reference/functions/add_filter/).
