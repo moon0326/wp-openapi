@@ -43,6 +43,7 @@ class Operation {
 		'minProperties'        => array( 'location' => 'root' ),
 		'maxProperties'        => array( 'location' => 'root' ),
 		'enum'                 => array( 'location' => 'root' ),
+        'properties'           => array( 'location' => 'root' ),
 	);
 
 	public function __construct( string $method, array $responses ) {
