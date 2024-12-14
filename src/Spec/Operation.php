@@ -43,7 +43,7 @@ class Operation {
 		'minProperties'        => array( 'location' => 'root' ),
 		'maxProperties'        => array( 'location' => 'root' ),
 		'enum'                 => array( 'location' => 'root' ),
-        	'properties'           => array( 'location' => 'root' ),
+        'properties'           => array( 'location' => 'root' ),
 	);
 
 	public function __construct( string $method, array $responses ) {
@@ -98,9 +98,9 @@ class Operation {
 		$this->operationId = $operationId;
 	}
 
-	public function addSecurity( $security ) {
-		$this->securities[] = $security;
-	}
+    public function addSecurity( $name, $values ): void {
+        $this->securities[] = (object) array( $name => $values );
+    }
 
 	public function toArray(): array {
 		$data = array(
@@ -136,12 +136,9 @@ class Operation {
 			);
 		}
 
-		if ( $this->securities ) {
-			$data['security'] = array();
-			foreach ( $this->securities as $security ) {
-				$data['security'][] = array( $security => array() );
-			}
-		}
+        if ( $this->securities ) {
+            $data['security'] = $this->securities;
+        }
 
 		if ( count( $this->requestBodySchemaProperties ) ) {
 			$schema = array(

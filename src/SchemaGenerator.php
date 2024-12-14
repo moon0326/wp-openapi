@@ -56,7 +56,6 @@ class SchemaGenerator {
 				new Server( $this->siteInfo['home'] . '/' . rest_get_url_prefix() ),
 			),
 			'tags'       => array(),
-			'security'   => array(),
 			'components' => array(
 				'schemas' => array(),
 			),
@@ -104,7 +103,6 @@ class SchemaGenerator {
 		);
 
 		$base['components'] = $this->hooks->applyComponentsFilters( $base['components'], $hookArgs );
-		$base['security']   = $this->hooks->applySecurityFilters( $base['security'], $hookArgs );
 
 		return $base;
 	}

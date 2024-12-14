@@ -77,6 +77,11 @@ class Path {
 				$op          = new Operation( $method, $responses );
 				$op->setDescription( $description );
 				$op->generateParametersFromRouteArgs( $method, $arg['args'], $this->pathVariables, $this->path );
+                if ( isset( $arg['security']) && is_array( $arg['security'] ) ) {
+                    foreach ( $arg['security'] as $name => $values) {
+                        $op->addSecurity( $name, $values );
+                    }
+                }
 				$this->operations[] = $op;
 			}
 		}

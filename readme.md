@@ -38,16 +38,15 @@ It comes in handy if you want to look at the source code of the endpoint.
 
 WP OpenAPI has the following filters to modify the output.
 
-| Name                         |               Argument                | Equivalent Filters Method |
-| ---------------------------- | :-----------------------------------: | ------------------------- |
-| wp-openapi-filter-operations  | [Operation[]](./src/Spec/Operation.php) | AddOperationsFilter        |
-| wp-openapi-filter-paths       |      [Path[]](./src/Spec/Path.php)      | AddPathsFilter             |
-| wp-openapi-filter-servers     |    [Server[]](./src/Spec/Server.php)    | AddServersFilter           |
-| wp-openapi-filter-info       |      [Info](./src/Spec/Info.php)      | AddInfoFilter             |
-| wp-openapi-filter-tags        |       [Tag[]](./src/Spec/Tag.php)        | AddTagsFilter              |
-| wp-openapi-filter-security   |                 Array                 | AddSecurityFilter         |
-| wp-oepnapi-filter-components |                 Array                 | AddComponentsFilter       |
-| wp-openapi-filters-elements-props | Array||
+| Name                                          |               Argument                | Equivalent Filters Method |
+|-----------------------------------------------| :-----------------------------------: | ------------------------- |
+| wp-openapi-filter-operations                  | [Operation[]](./src/Spec/Operation.php) | AddOperationsFilter        |
+| wp-openapi-filter-paths                       |      [Path[]](./src/Spec/Path.php)      | AddPathsFilter             |
+| wp-openapi-filter-servers                     |    [Server[]](./src/Spec/Server.php)    | AddServersFilter           |
+| wp-openapi-filter-info                        |      [Info](./src/Spec/Info.php)      | AddInfoFilter             |
+| wp-openapi-filter-tags                        |       [Tag[]](./src/Spec/Tag.php)        | AddTagsFilter              |****
+| wp-openapi-filter-components                  |                 Array                 | AddComponentsFilter       |
+| wp-openapi-filters-elements-props             | Array||
 | wp-openapi-filters-schema-endpoint-permission | true||
 
 You can use individual filters by calling [add_filter](https://developer.wordpress.org/reference/functions/add_filter/).
@@ -64,6 +63,56 @@ Filters::getInstance()->addPathsFilter(function(array $paths, array $args) {
         }
     }
 });
+```
+
+## Using security field
+
+Since there is no central place to add `securitySchemes` in WordPress, you can use the `wp-openapi-filter-components` filter to add them.
+
+```php
+ add_filter('wp-openapi-filter-components', function(array $components) {
+	$components['securitySchemes'] = [
+		'api_key' => [
+			'type' => 'apiKey',
+			'name' => 'api_key',
+			'in' => 'header',
+		]
+	];
+	
+	return $components;
+ });
+```
+Now, you can use the `security` field in your REST API definition.
+
+```php
+register_rest_route(
+	$this->namespace,
+	'/' . $this->rest_base . '/test',
+	array(
+		array(
+			'methods'             => 'GET',
+			'callback'            => array( $this, 'test' ),
+			'args'                => array(
+				'status' => array(
+					'type' => 'string',
+					'enum' => array( 'yes', 'no' ),
+				),
+				'credentials' => [
+					'type' => 'object',
+					'properties' => [
+						'username' => ['type' => 'string'],
+						'application_password' => ['type' => 'string'],
+					]
+				]
+			),
+			'security' => array(
+				'api_key'=> array(),
+			)
+		),
+	)
+);
+
+
 ```
 
 ## Export

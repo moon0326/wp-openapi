@@ -107,24 +107,6 @@ class Filters {
 	}
 
 	/**
-	 * @param array $security
-	 * @param array $args
-	 * @return array
-	 */
-	public function applySecurityFilters( array $security, array $args = array() ): array {
-		return apply_filters( self::PREFIX . 'filter-security', $security, $args );
-	}
-
-	/**
-	 * @param $callback
-	 * @param int      $priority
-	 * @return bool|true|void
-	 */
-	public function addSecurityFilter( $callback, int $priority = 10 ) {
-		return add_filter( self::PREFIX . 'filter-security', $callback, $priority, 2 );
-	}
-
-	/**
 	 * @param Tag[] $tags
 	 * @param array $args
 	 * @return Tag[]
