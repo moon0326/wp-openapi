@@ -1,6 +1,8 @@
 <?php
 namespace WPOpenAPI\Spec;
 
+use WPOpenAPI\Filters;
+
 class Path {
 	/**
 	 * @var string
@@ -78,6 +80,8 @@ class Path {
 				$this->operations[] = $op;
 			}
 		}
+
+		$this->operations = Filters::getInstance()->applyOperationsFilters( $this->operations );
 	}
 
 	public function getOriginalPath(): string {
