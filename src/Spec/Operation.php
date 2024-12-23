@@ -171,7 +171,52 @@ class Operation {
 
 	private function addRequestSchemaProperties( $name, $values ) {
 		$data = array();
-		$pick = array( 'type', 'required', 'description' );
+		$pick = array(
+			'$schema',
+			'$id',
+			'$ref',
+			'$comment',
+			"title",
+			"description",
+			"default",
+			"examples",
+			"definitions",
+			"type",
+			"enum",
+			"const",
+			"allOf",
+			"anyOf",
+			"oneOf",
+			"not",
+			"if",
+			"then",
+			"else",
+			"properties",
+			"required",
+			"additionalProperties",
+			"patternProperties",
+			"dependencies",
+			"propertyNames",
+			"items",
+			"additionalItems",
+			"contains",
+			"minProperties",
+			"maxProperties",
+			"minItems",
+			"maxItems",
+			"uniqueItems",
+			"minLength",
+			"maxLength",
+			"pattern",
+			"format",
+			"contentMediaType",
+			"contentEncoding",
+			"multipleOf",
+			"maximum",
+			"exclusiveMaximum",
+			"minimum",
+			"exclusiveMinimum",
+		);
 		foreach ( $pick as $valueName ) {
 			if ( isset( $values[ $valueName ] ) ) {
 				$data[ $valueName ] = $values[ $valueName ];
