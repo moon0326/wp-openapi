@@ -8,6 +8,7 @@ use WPOpenAPI\Spec\Info;
 use WPOpenAPI\Spec\Path;
 use WPOpenAPI\Spec\Server;
 use WPOpenAPI\Spec\Tag;
+use WPOpenAPI\Util;
 
 class SchemaGenerator {
 	private Filters $hooks;
@@ -103,6 +104,29 @@ class SchemaGenerator {
 		);
 
 		$base['components'] = $this->hooks->applyComponentsFilters( $base['components'], $hookArgs );
+
+		return $this->fixComponentsSchemas( $base );
+	}
+
+	/**
+	 * Fix components schemas.
+	 */
+	protected function fixComponentsSchemas( array $base ): array {
+		// Fix components schemas
+		// Remove context and readonly from the schema.
+		// These are not valid in the OpenAPI schema properties.
+		// Also remove required from the properties. Property level required is not valid in the OpenAPI schema.
+		foreach ( $base['components']['schemas'] as $key =>$schema ) {
+			$base['components']['schemas'][$key]['properties'] = Util::removeArrayKeysRecursively( $schema['properties'], array( 'context', 'readonly' ) );
+			Util::modifyPropertiesRecursive($base['components']['schemas'][$key], function($properties) {
+				foreach ($properties as $key => $property) {
+					if (isset($property['required'])) {
+						unset($properties[$key]['required']);
+					}
+				}
+				return $properties;
+			});
+		}
 
 		return $base;
 	}
