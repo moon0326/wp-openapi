@@ -253,7 +253,11 @@ class Operation {
 				$values['description'] = '';
 			}
 
-			if ( ! isset( $values['required'] ) ) {
+			// monkey patch for invalid $values['required'].
+			// make sure it is a boolean.
+			// We don't have a full control over what other plugins 
+			// are passing to us. So we need to be careful.
+			if ( ! isset( $values['required'] ) || ! is_bool( $values['required'] ) ) {
 				$values['required'] = false;
 			}
 
