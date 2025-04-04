@@ -42,7 +42,7 @@ class AddCallbackInfoToDescription {
 					array(
 						'callbackType' => $callback->getCallableType(),
 						'callable'     => $callback->getCallable(),
-						'filepath'     => htmlentities( $callback->getFilepath() ),
+						'filepath'     => htmlentities( $callback->getFilepath() ?? '' ),
 					)
 				);
 				$operation->setDescription( $description );
