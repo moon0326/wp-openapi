@@ -3,6 +3,7 @@
 namespace WPOpenAPI\Spec;
 
 use InvalidArgumentException;
+use WPOpenAPI\Util;
 
 class Parameter {
 
@@ -66,6 +67,11 @@ class Parameter {
 				} else {
 					$data['schema']->$key = $values['value'];
 				}
+			}
+			// Try to clean up duplicate values added by mistake by plugins.
+			// Enum must be unique.
+			if ( isset( $data['schema']->enum ) ) {
+				$data['schema']->enum = array_unique($data['schema']->enum);
 			}
 		}
 		return $data;
