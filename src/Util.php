@@ -15,6 +15,10 @@ class Util {
 		return $array;
 	}
 
+	public static function is_assoc_array(array $array): bool {
+		return array_keys($array) !== range(0, count($array) - 1);
+	}
+
 	public static function modifyArrayValueByKeyRecursive(array &$array, $key, callable $callback): void {
 		foreach ($array as $k => &$v) {
 			if ($k === $key) {
@@ -70,5 +74,12 @@ class Util {
 		}
 
 		return $type;
+	}
+
+	public static function normalizeEnum( $enum ) {
+		if ( is_array( $enum ) ) {
+			return array_unique( array_values( $enum ) );
+		}
+		return $enum;
 	}
 }

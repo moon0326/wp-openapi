@@ -164,6 +164,9 @@ class Operation {
 			});
 
 			Util::modifyPropertiesRecursive($schema, function($properties) {
+				if (is_array($properties) && count($properties) === 0) {
+					return new \stdClass();
+				}
 				foreach ($properties as $key => $property) {
 					if (isset($property['required'])) {
 						unset($properties[$key]['required']);
@@ -171,6 +174,7 @@ class Operation {
 				}
 				return $properties;
 			});
+
 
 			$data['requestBody'] = array(
 				'content' => array(
