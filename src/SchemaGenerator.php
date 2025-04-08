@@ -123,21 +123,16 @@ class SchemaGenerator {
 			$base['components']['schemas'][$key][$keyToRemove] = Util::removeArrayKeysRecursively( $schema[$keyToRemove], array( 'context', 'readonly' ) );
 
 			// Remove 'required' from the properties. Property level required is not valid in the OpenAPI schema.
-			Util::modifyPropertiesRecursive($base['components']['schemas'][$key], function($properties) {
+			Util::modifyArrayValueByKeyRecursive($base['components']['schemas'][$key], 'properties', function($properties) {
+				if (is_array($properties) && count($properties) === 0) {
+					return new \stdClass();
+				}
+
 				foreach ($properties as $key => $property) {
 					if (isset($property['required'])) {
 						unset($properties[$key]['required']);
 					}
 				}
-				return $properties;
-			});
-
-			// // When type is 'object', the properties must be an object.
-			Util::modifyPropertiesRecursive($base['components']['schemas'][$key], function($properties) {
-				if (is_array($properties) && count($properties) === 0) {
-					return new \stdClass();
-				}
-
 				return $properties;
 			});
 

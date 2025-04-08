@@ -163,7 +163,7 @@ class Operation {
 				return Util::normalzieInvalidType($type);
 			});
 
-			Util::modifyPropertiesRecursive($schema, function($properties) {
+			Util::modifyArrayValueByKeyRecursive($schema, 'properties', function($properties) {
 				if (is_array($properties) && count($properties) === 0) {
 					return new \stdClass();
 				}

@@ -31,19 +31,6 @@ class Util {
 		}
 	}
 
-	public static function modifyPropertiesRecursive(array &$array, callable $callback): void {
-		foreach ($array as $key => &$value) {
-			if ($key === 'properties') {
-				$value = $callback($value);
-			}
-
-			if (is_array($value)) {
-				self::modifyPropertiesRecursive($value, $callback);
-			}
-		}
-	}
-
-
 	/**
 	 * In WordPress, some schema formats are not compatible with the OpenAPI specification.
 	 * This function converts those special or non-standard types to OpenAPI-compatible values.

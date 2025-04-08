@@ -79,7 +79,6 @@ class Parameter {
 			if ( isset( $data['schema']->items['enum'] ) ) {
 				$data['schema']->items['enum'] = Util::normalizeEnum($data['schema']->items['enum']);
 			}
-
 		}
 		return $data;
 	}
