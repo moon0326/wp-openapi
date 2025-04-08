@@ -3,6 +3,7 @@
 namespace WPOpenAPI\Spec;
 
 use InvalidArgumentException;
+use WPOpenAPI\Util;
 
 class Operation {
 	const METHODS            = array( 'get', 'post', 'patch', 'delete', 'put' );
@@ -157,6 +158,24 @@ class Operation {
 				$schema['required'] = $requiredProperties;
 			}
 
+			$schema = Util::removeArrayKeysRecursively( $schema, array( 'context', 'readonly' ) );
+			Util::modifyArrayValueByKeyRecursive($schema, 'type', function($type) {
+				return Util::normalzieInvalidType($type);
+			});
+
+			Util::modifyArrayValueByKeyRecursive($schema, 'properties', function($properties) {
+				if (is_array($properties) && count($properties) === 0) {
+					return new \stdClass();
+				}
+				foreach ($properties as $key => $property) {
+					if (isset($property['required'])) {
+						unset($properties[$key]['required']);
+					}
+				}
+				return $properties;
+			});
+
+
 			$data['requestBody'] = array(
 				'content' => array(
 					'application/x-www-form-urlencoded' => array(
@@ -238,6 +257,9 @@ class Operation {
 	public function generateParametersFromRouteArgs( $method, array $args, array $pathVariables, $endpoint ): void {
 		// get, method, delete, put
 		foreach ( $args as $name => $values ) {
+			if (isset($values['context'])) {
+				$values = Util::removeArrayKeysRecursively( $values, array( 'context', 'readonly' ) );
+			}
 			if ( in_array( $name, $pathVariables ) ) {
 				$in = 'path';
 				// required must be set to true when the in value is 'path'
@@ -265,6 +287,8 @@ class Operation {
 				$values['type'] = 'string';
 			}
 
+			$values['type'] = Util::normalzieInvalidType( $values['type'] );
+
 			$parameter = new Parameter( $in, $name, $values['type'], $values['description'], $values['required'] );
 			if ( isset( $values['default'] ) ) {
 				$parameter->setDefault( $values['default'] );
@@ -275,7 +299,7 @@ class Operation {
 				if ( in_array( $key, $supportedJsonSchemaSets ) ) {
 					$parameter->addJsonSchemaDefinition( $key, $value, $this->jsonSchemaSets[ $key ]['location'] );
 				}
-			}
+			}     
 
 			$this->parameters[] = $parameter;
 		}

@@ -8,6 +8,7 @@ use WPOpenAPI\Spec\Info;
 use WPOpenAPI\Spec\Path;
 use WPOpenAPI\Spec\Server;
 use WPOpenAPI\Spec\Tag;
+use WPOpenAPI\Util;
 
 class SchemaGenerator {
 	private Filters $hooks;
@@ -103,6 +104,47 @@ class SchemaGenerator {
 		);
 
 		$base['components'] = $this->hooks->applyComponentsFilters( $base['components'], $hookArgs );
+
+		return $this->fixComponentsSchemas( $base );
+	}
+
+	/**
+	 * This function tries to fix invalid schemas.
+	 * Many schemas from the core are invalid. It's not this plugin's responsibility to fix them, but we can at least try to fix some of them
+	 * since this plugin is for WP.
+	 */
+	protected function fixComponentsSchemas( array $base ): array {
+		// Fix components schemas
+		// Remove context and readonly from the schema.
+		// These are not valid in the OpenAPI schema properties.
+		// Also remove required from the properties. Property level required is not valid in the OpenAPI schema.
+		foreach ( $base['components']['schemas'] as $key =>$schema ) {
+			$keyToRemove = isset($schema['properties']) ? 'properties' : 'items';
+			$base['components']['schemas'][$key][$keyToRemove] = Util::removeArrayKeysRecursively( $schema[$keyToRemove], array( 'context', 'readonly' ) );
+
+			// Remove 'required' from the properties. Property level required is not valid in the OpenAPI schema.
+			Util::modifyArrayValueByKeyRecursive($base['components']['schemas'][$key], 'properties', function($properties) {
+				if (is_array($properties) && count($properties) === 0) {
+					return new \stdClass();
+				}
+
+				foreach ($properties as $key => $property) {
+					if (isset($property['required'])) {
+						unset($properties[$key]['required']);
+					}
+				}
+				return $properties;
+			});
+
+			// Fix invalid enum values.
+			Util::modifyArrayValueByKeyRecursive($base['components']['schemas'][$key], 'enum', function($enum) {
+				if (Util::is_assoc_array($enum)) {
+					return array_values($enum);
+				}
+
+				return $enum;
+			});
+		}
 
 		return $base;
 	}
