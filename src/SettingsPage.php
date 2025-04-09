@@ -61,7 +61,7 @@ class SettingsPage {
 					)
 				);
 				// Create the link.
-				$settings_link = "<a href='$url'>" . __( 'Settings' ) . '</a>';
+				$settings_link = "<a href='$url'>" . __( 'Settings', 'wp-openapi' ) . '</a>';
 				// Adds the link to the end of the array.
 				$links[] = $settings_link;
 				return $links;
