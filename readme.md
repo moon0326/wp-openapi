@@ -54,15 +54,16 @@ You can use individual filters by calling [add_filter](https://developer.wordpre
 You can also use [Filters](./src/Filters.php).
 
 ```php
-Filters::getInstance()->addPathsFilter(function(array $paths, array $args) {
-    if ($args['requestedNamespace'] === 'all) {
-        foreach ($paths as $path) {
-            foreach ($path->getOperations() as $operation) {
-                $operation->setDescription('test');
-            }
-        }
+Filters::getInstance()->addPathsFilter( function( array $paths, array $args ) {
+  if ( $args['requestedNamespace'] === 'all' ) {
+    foreach ( $paths as $path ) {
+      foreach ( $path->getOperations() as $operation ) {
+        $operation->setDescription( 'test' );
+      }
     }
-});
+  }
+} );
+
 ```
 
 ## Using security field
@@ -70,49 +71,47 @@ Filters::getInstance()->addPathsFilter(function(array $paths, array $args) {
 Since there is no central place to add `securitySchemes` in WordPress, you can use the `wp-openapi-filter-components` filter to add them.
 
 ```php
- add_filter('wp-openapi-filter-components', function(array $components) {
-	$components['securitySchemes'] = [
-		'api_key' => [
-			'type' => 'apiKey',
-			'name' => 'api_key',
-			'in' => 'header',
-		]
-	];
-	
-	return $components;
- });
+add_filter( 'wp-openapi-filter-components', function( array $components ) {
+  $components['securitySchemes'] = array(
+    'api_key' => array(
+      'type' => 'apiKey',
+      'name' => 'api_key',
+      'in'   => 'header',
+    ),
+  );
+  return $components;
+} );
+
 ```
 Now, you can use the `security` field in your REST API definition.
 
 ```php
 register_rest_route(
-	$this->namespace,
-	'/' . $this->rest_base . '/test',
-	array(
-		array(
-			'methods' => 'GET',
-			'callback' => array( $this, 'test' ),
-			'args' => array(
-				'status' => array(
-					'type' => 'string',
-					'enum' => array( 'yes', 'no' ),
-				),
-				'credentials' => [
-					'type' => 'object',
-					'properties' => [
-						'username' => ['type' => 'string'],
-						'application_password' => ['type' => 'string'],
-					]
-				]
-			),
-			'security' => array(
-				'api_key'=> array(),
-			)
-		),
-	)
+  $this->namespace,
+  '/' . $this->rest_base . '/test',
+  array(
+    array(
+      'methods'  => 'GET',
+      'callback' => array( $this, 'test' ),
+      'args'     => array(
+        'status' => array(
+          'type' => 'string',
+          'enum' => array( 'yes', 'no' ),
+        ),
+        'credentials' => array(
+          'type'       => 'object',
+          'properties' => array(
+            'username'            => array( 'type' => 'string' ),
+            'application_password'=> array( 'type' => 'string' ),
+          ),
+        ),
+      ),
+      'security' => array(
+        'api_key' => array(),
+      ),
+    ),
+  )
 );
-
-
 ```
 
 ## Export
