@@ -90,9 +90,9 @@ register_rest_route(
 	'/' . $this->rest_base . '/test',
 	array(
 		array(
-			'methods'             => 'GET',
-			'callback'            => array( $this, 'test' ),
-			'args'                => array(
+			'methods' => 'GET',
+			'callback' => array( $this, 'test' ),
+			'args' => array(
 				'status' => array(
 					'type' => 'string',
 					'enum' => array( 'yes', 'no' ),
