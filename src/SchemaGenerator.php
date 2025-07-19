@@ -120,7 +120,9 @@ class SchemaGenerator {
 		// Also remove required from the properties. Property level required is not valid in the OpenAPI schema.
 		foreach ( $base['components']['schemas'] as $key =>$schema ) {
 			$keyToRemove = isset($schema['properties']) ? 'properties' : 'items';
-			$base['components']['schemas'][$key][$keyToRemove] = Util::removeArrayKeysRecursively( $schema[$keyToRemove], array( 'context', 'readonly' ) );
+			if (isset($schema[$keyToRemove])) {
+				$base['components']['schemas'][$key][$keyToRemove] = Util::removeArrayKeysRecursively( $schema[$keyToRemove], array( 'context', 'readonly' ) );
+			}
 
 			// Remove 'required' from the properties. Property level required is not valid in the OpenAPI schema.
 			Util::modifyArrayValueByKeyRecursive($base['components']['schemas'][$key], 'properties', function($properties) {
