@@ -140,6 +140,9 @@ class SchemaGenerator {
 
 			// Fix invalid enum values.
 			Util::modifyArrayValueByKeyRecursive($base['components']['schemas'][$key], 'enum', function($enum) {
+				if (!is_array($enum)) {
+					return $enum;
+				}
 				if (Util::is_assoc_array($enum)) {
 					return array_values($enum);
 				}
