@@ -43,6 +43,10 @@ class FixWPCoreCollectionEndpoints {
 		$hooks->AddOperationsFilter(function(array $operations) {
 			foreach ($operations as $operation) {
 				$endpoint = $operation->getEndpoint();
+				$method  = $operation->getMethod();
+				if ($method !== 'get') {
+					continue;
+				}
 				if (!in_array($endpoint, self::WP_CORE_COLLECTION_ENDPOINTS, true)) {
 					continue;
 				}
