@@ -74,9 +74,9 @@ class Path {
 				$description = $arg['description'] ?? '';
 				$method      = strtolower( $method );
 				if($method == 'options') continue;
-				$op          = new Operation( $method, $responses );
+				$op          = new Operation( $method, $responses, $this->path );
 				$op->setDescription( $description );
-				$op->generateParametersFromRouteArgs( $method, $arg['args'], $this->pathVariables, $this->path );
+				$op->generateParametersFromRouteArgs( $method, $arg['args'], $this->pathVariables );
                 if ( isset( $arg['security']) && is_array( $arg['security'] ) ) {
                     foreach ( $arg['security'] as $name => $values) {
                         $op->addSecurity( $name, $values );

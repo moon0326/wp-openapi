@@ -22,6 +22,7 @@ use WPOpenAPI\CLI\ExportAsHTML;
 use WPOpenAPI\CLI\ExportAsJSON;
 use WPOpenAPI\Filters;
 use WPOpenAPI\Filters\AddCallbackInfoToDescription;
+use WPOpenAPI\Filters\FixWPCoreCollectionEndpoints;
 use WPOpenAPI\SchemaGenerator;
 use WPOpenAPI\SettingsPage;
 use WPOpenAPI\View;
@@ -140,6 +141,8 @@ class WPOpenAPI {
 		if ( SettingsPage::getOption( 'enableCallbackDiscovery' ) === 'on' ) {
 			new AddCallbackInfoToDescription( $hooks, new View( 'callback' ), $restServer->get_routes() );
 		}
+
+		new FixWPCoreCollectionEndpoints( $hooks );
 
 		$schemaGenerator = new SchemaGenerator( $hooks, $siteInfo, $restServer );
 		wp_send_json( $schemaGenerator->generate( $this->getNamespace() ) );

@@ -14,6 +14,8 @@ class Operation {
 	private ?string $description = null;
 	private ?string $operationId = null;
 
+	private string $endpoint;
+
 	/**
 	 * @var Parameter[]
 	 */
@@ -47,7 +49,7 @@ class Operation {
         'properties'           => array( 'location' => 'root' ),
 	);
 
-	public function __construct( string $method, array $responses ) {
+	public function __construct( string $method, array $responses, string $endpoint ) {
 		$method = strtolower( $method );
 		if ( ! in_array( $method, self::METHODS ) ) {
 			throw new InvalidArgumentException(
@@ -57,6 +59,14 @@ class Operation {
 		}
 		$this->method    = $method;
 		$this->responses = $responses;
+		foreach ( $responses as $response ) {
+			$this->addResponse( $response );
+		}
+		$this->endpoint  = $endpoint;
+	}
+
+	public function getEndpoint(): string {
+		return $this->endpoint;
 	}
 
 	public function getMethod(): string {
@@ -254,7 +264,7 @@ class Operation {
 		return null;
 	}
 
-	public function generateParametersFromRouteArgs( $method, array $args, array $pathVariables, $endpoint ): void {
+	public function generateParametersFromRouteArgs( $method, array $args, array $pathVariables ): void {
 		// get, method, delete, put
 		foreach ( $args as $name => $values ) {
 			if (isset($values['context'])) {
