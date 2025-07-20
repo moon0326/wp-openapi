@@ -36,6 +36,23 @@ class FixWPCoreCollectionEndpoints {
 		'/wp/v2/block-patterns/patterns',
 		'/wp/v2/block-patterns/categories',
 		'/wp/v2/font-collections',
+		'/wp/v2/posts/{parent}/revisions',
+		'/wp/v2/posts/{id}/autosaves',
+		'/wp/v2/pages/{parent}/revisions',
+		'/wp/v2/pages/{id}/autosaves',
+		'/wp/v2/menu-items/{id}/autosaves',
+		'/wp/v2/blocks/{parent}/revisions',
+		'/wp/v2/blocks/{id}/autosaves',
+		'/wp/v2/templates/{parent}/revisions',
+		'/wp/v2/templates/{id}/autosaves',
+		'/wp/v2/template-parts/{parent}/revisions',
+		'/wp/v2/template-parts/{id}/autosaves',
+		'/wp/v2/global-styles/{parent}/revisions',
+		'/wp/v2/global-styles/themes/{stylesheet}/variations',
+		'/wp/v2/navigation/{parent}/revisions',
+		'/wp/v2/navigation/{id}/autosaves',
+		'/wp/v2/font-families/{font_family_id}/font-faces',
+		'/wp/v2/users/{user_id}/application-passwords',
 	);
 
 
