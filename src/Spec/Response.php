@@ -19,8 +19,16 @@ class Response {
 		return $this->code;
 	}
 
+	public function getDescription(): string {
+		return $this->description;
+	}
+
 	public function addContent( ResponseContent $content ) {
 		$this->contents[] = $content;
+	}
+
+	public function getContents() : array {
+		return $this->contents;
 	}
 
 	public function toArray(): array {
