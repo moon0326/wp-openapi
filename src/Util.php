@@ -69,4 +69,17 @@ class Util {
 		}
 		return $enum;
 	}
+
+	public static function normalizeSchemaTitle( $title ) {
+		// Remove invalid characters for schema titles.
+		// Only allow alphanumeric characters and underscores.
+		$title = preg_replace( '/[^a-zA-Z0-9_]/', '_', $title );
+		// Ensure the title starts with an alphabetic character or underscore.
+		if ( ! preg_match( '/^[a-zA-Z_]/', $title ) ) {
+			$title = '_' . $title;
+		}
+
+
+		return strtolower( $title );
+	}
 }

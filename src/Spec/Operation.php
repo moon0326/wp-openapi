@@ -182,6 +182,20 @@ class Operation {
 						unset($properties[$key]['required']);
 					}
 				}
+
+				// Loop through again make sure it's not an empty array.
+				foreach ($properties as $key => $property) {
+					if (is_array($property) && count($property) === 0) {
+						$properties[$key] = new \stdClass();
+					}
+					foreach ($property as $propKey => $propValue) {
+						if ($propKey === 'items' && is_string($propValue)) {
+							$properties[$key]['items'] = array('type' => Util::normalzieInvalidType($propValue));
+						}
+					}
+				}
+
+
 				return $properties;
 			});
 
