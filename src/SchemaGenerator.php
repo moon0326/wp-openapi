@@ -72,7 +72,8 @@ class SchemaGenerator {
 				if ( isset( $options['schema'] ) ) {
 					$schema = call_user_func( $options['schema'] );
 					if ( isset( $schema['title'] ) ) {
-						$schemaTitle                                   = $schema['title'];
+						$title = Util::normalizeSchemaTitle( $schema['title'] );
+						$schemaTitle                                   = $title;
 						$base['components']['schemas'][ $schemaTitle ] = $schema;
 					}
 				}
@@ -149,6 +150,25 @@ class SchemaGenerator {
 
 				return $enum;
 			});
+		}
+
+		// Manually fix these endpoints from WooCommerce.
+		$fixList = [
+			'install_async_schema',
+			'install_and_activate_schema',
+			'count_low_in_stock_items'
+		];
+
+		// Hate this fix, but we don't have control over other plugins.
+		foreach ($fixList as $schemaKey) {
+			if (isset($base['components']['schemas'][$schemaKey]) && isset($base['components']['schemas'][$schemaKey]['properties']['properties'])) {
+				$base['components']['schemas'][$schemaKey]['properties'] = $base['components']['schemas'][$schemaKey]['properties']['properties'];	
+				foreach ($base['components']['schemas'][$schemaKey]['properties'] as $key => $property) {
+					if (is_string($property)) {
+						$base['components']['schemas'][$schemaKey]['properties'][$key] = array('type' => Util::normalzieInvalidType($property));
+					}
+				}
+			}
 		}
 
 		return $base;
