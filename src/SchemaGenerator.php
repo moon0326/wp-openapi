@@ -68,9 +68,6 @@ class SchemaGenerator {
 			$base['tags'][] = new Tag( $namespace );
 			foreach ( $this->restServer->get_routes( $namespace ) as $path => $args ) {
 				$options     = $this->restServer->get_route_options( $path );
-				// if ($path !== '/wc-admin/onboarding/plugins/install-and-activate-async') {
-				// 	continue;
-				// }
 				$schemaTitle = null;
 				if ( isset( $options['schema'] ) ) {
 					$schema = call_user_func( $options['schema'] );
