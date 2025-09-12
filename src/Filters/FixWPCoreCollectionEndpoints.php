@@ -57,7 +57,7 @@ class FixWPCoreCollectionEndpoints {
 
 
 	public function __construct( Filters $hooks ) {
-		$hooks->AddOperationsFilter(function(array $operations) {
+		$hooks->addOperationsFilter(function(array $operations) {
 			foreach ($operations as $operation) {
 				$endpoint = $operation->getEndpoint();
 				$method  = $operation->getMethod();
