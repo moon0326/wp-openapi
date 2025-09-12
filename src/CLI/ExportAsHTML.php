@@ -4,8 +4,11 @@ namespace WPOpenAPI\CLI;
 
 use WPOpenAPI;
 use WPOpenAPI\Filters;
+use WPOpenAPI\Filters\AddCallbackInfoToDescription;
+use WPOpenAPI\Filters\FixWPCoreCollectionEndpoints;
 use WPOpenAPI\SchemaGenerator;
 use WPOpenAPI\View;
+use WPOpenAPI\SettingsPage;
 
 class ExportAsHTML {
 
@@ -28,7 +31,17 @@ class ExportAsHTML {
 			'home'            => get_option( 'home' ),
 			'wp_version'      => $wp_version,
 		);
-		$schemaGenerator = new SchemaGenerator( Filters::getInstance(), $siteInfo, rest_get_server() );
+
+		$restServer = rest_get_server();
+		$hooks      = Filters::getInstance();
+
+		if ( SettingsPage::getOption( 'enableCallbackDiscovery' ) === 'on' ) {
+			new AddCallbackInfoToDescription( $hooks, new View( 'callback' ), $restServer->get_routes() );
+		}
+
+		new FixWPCoreCollectionEndpoints( $hooks );
+
+		$schemaGenerator = new SchemaGenerator( $hooks, $siteInfo, $restServer );
 
 		$view = new View( 'export-html' );
 		$html = $view->render(
