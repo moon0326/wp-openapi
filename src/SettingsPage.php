@@ -48,6 +48,20 @@ class SettingsPage {
 		);
 	}
 
+	private function addACFIntegrationOption() {
+		add_settings_field(
+			'wp-openapi-settings-acf-integration',
+			'Enable ACF Integration',
+			function() {
+				$options = get_option( self::OPTION_ID );
+				$checked = isset( $options['enableACFIntegration'] ) && $options['enableACFIntegration'] === 'on';
+				echo ( new View( 'settings-acf-integration' ) )->render( array( 'checked' => $checked ) );
+			},
+			self::PAGE_ID,
+			$this->sectionId
+		);
+	}
+
 	private function initActions() {
 		add_action(
 			'plugin_action_links_wp-openapi/wp-openapi.php',
@@ -96,6 +110,7 @@ class SettingsPage {
 				add_settings_section( $this->sectionId, '', function(){}, self::PAGE_ID );
 				$this->addTryItOption();
 				$this->addDiscoveryOption();
+				$this->addACFIntegrationOption();
 			}
 		);
 	}
