@@ -143,6 +143,7 @@ class WPOpenAPI {
 		}
 
 		new FixWPCoreCollectionEndpoints( $hooks );
+		new Filters\AddACFSchema( $hooks, $restServer );
 
 		$schemaGenerator = new SchemaGenerator( $hooks, $siteInfo, $restServer );
 		wp_send_json( $schemaGenerator->generate( $this->getNamespace() ) );

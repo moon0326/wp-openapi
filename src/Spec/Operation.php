@@ -27,6 +27,7 @@ class Operation {
 	private array $responses                   = array();
 	private array $requestBodySchemaProperties = array();
 	private array $securities                  = array();
+	private ?array $acfSchema                  = null;
 
 	private array $jsonSchemaSets = array(
 		'oneOf'                => array( 'location' => 'root' ),
@@ -113,6 +114,16 @@ class Operation {
         $this->securities[] = (object) array( $name => $values );
     }
 
+	/**
+	 * Set ACF schema for this operation's request body
+	 *
+	 * @param array $acfSchema The ACF schema to add
+	 * @return void
+	 */
+	public function setACFSchema( array $acfSchema ): void {
+		$this->acfSchema = $acfSchema;
+	}
+
 	public function toArray(): array {
 		$data = array(
 			'responses' => array(),
@@ -151,11 +162,16 @@ class Operation {
             $data['security'] = $this->securities;
         }
 
-		if ( count( $this->requestBodySchemaProperties ) ) {
+		if ( count( $this->requestBodySchemaProperties ) || $this->acfSchema ) {
 			$schema = array(
 				'type'       => 'object',
 				'properties' => $this->requestBodySchemaProperties,
 			);
+
+			// Add ACF schema if present
+			if ( $this->acfSchema ) {
+				$schema['properties']['acf'] = $this->acfSchema;
+			}
 
 			$requiredProperties = array();
 			foreach ( $this->requestBodySchemaProperties as $name => $property ) {
