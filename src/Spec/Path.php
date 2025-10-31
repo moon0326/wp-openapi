@@ -52,10 +52,32 @@ class Path {
 		return $this->operations;
 	}
 
-	public function generateOperationsFromRouteArgs( $args ): void {
+	public function generateOperationsFromRouteArgs( $args, $routeResponses = null ): void {
 		foreach ( $args as $arg ) {
 			$responses = array();
-			if ( ! empty( $this->schemaRef ) ) {
+			
+			// Check if custom responses are provided
+			if ( $routeResponses && is_array( $routeResponses ) ) {
+				// Process custom responses from route registration
+				foreach ( $routeResponses as $code => $responseDef ) {
+					$code        = (int) $code;
+					$description = $responseDef['description'] ?? '';
+					$response    = new Response( $code, $description );
+					
+					// Process content/schema for each response
+					if ( isset( $responseDef['content'] ) && is_array( $responseDef['content'] ) ) {
+						foreach ( $responseDef['content'] as $mediaType => $contentDef ) {
+							$schema  = $contentDef['schema'] ?? array();
+							$example = $contentDef['example'] ?? null;
+							$content = new ResponseContent( $mediaType, $schema, $example );
+							$response->addContent( $content );
+						}
+					}
+					
+					$responses[] = $response;
+				}
+			} elseif ( ! empty( $this->schemaRef ) ) {
+				// Fallback to schema reference if no custom responses
 				$content  = new ResponseContent(
 					'application/json',
 					array(
@@ -67,6 +89,7 @@ class Path {
 				$responses[] = $response;
 
 			} else {
+				// Default response
 				$responses[] = new Response( 200, 'OK' );
 			}
 
