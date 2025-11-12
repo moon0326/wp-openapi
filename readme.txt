@@ -1,5 +1,5 @@
 === WP OpenAPI ===
-Contributors: moon0326 mfenerich
+Contributors: moon0326, mfenerich
 Tags: documentation, rest api, api, openapi, swagger
 Requires at least: 5.8
 Tested up to: 6.8.3
