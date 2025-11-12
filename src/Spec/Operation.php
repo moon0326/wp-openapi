@@ -216,13 +216,13 @@ class Operation {
 			});
 
 
-			$data['requestBody'] = array(
+			$data['requestBody'] = apply_filters( 'wp_openapi_operation_request_body', array(
 				'content' => array(
 					'application/x-www-form-urlencoded' => array(
 						'schema' => $schema,
 					),
 				),
-			);
+            ), $this );
 		}
 
 		return $data;
