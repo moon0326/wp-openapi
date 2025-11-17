@@ -1,10 +1,10 @@
 === WP OpenAPI ===
-Contributors: moon0326
+Contributors: moon0326, mfenerich
 Tags: documentation, rest api, api, openapi, swagger
 Requires at least: 5.8
-Tested up to: 6.7.2
+Tested up to: 6.8.3
 Requires PHP: 7.1
-Stable tag: 1.0.25
+Stable tag: 1.0.26
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

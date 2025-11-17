@@ -9,14 +9,15 @@ class ParameterTest extends TestCase
 {
     public function test_serialization()
     {
-        $parameter = new Parameter('query', 'username', 'username parameter', true);
+        $parameter = new Parameter('query', 'username', 'string', 'username parameter', true);
         $result = $parameter->toArray();
         $expected = [
             'name' => 'username',
             'in' => 'query',
             'description' => 'username parameter',
-            'required' => true
+            'required' => true,
+            'schema' => new \stdClass()
         ];
-        $this->assertSame($expected, $result);
+        $this->assertEquals($expected, $result);
     }
 }

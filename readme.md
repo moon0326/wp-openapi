@@ -41,6 +41,7 @@ WP OpenAPI has the following filters to modify the output.
 | Name                                          |               Argument                | Equivalent Filters Method |
 |-----------------------------------------------| :-----------------------------------: | ------------------------- |
 | wp-openapi-filter-operations                  | [Operation[]](./src/Spec/Operation.php) | AddOperationsFilter        |
+| `wp_openapi_operation_request_body`           |   `array`, `Operation`                      |                           |
 | wp-openapi-filter-paths                       |      [Path[]](./src/Spec/Path.php)      | AddPathsFilter             |
 | wp-openapi-filter-servers                     |    [Server[]](./src/Spec/Server.php)    | AddServersFilter           |
 | wp-openapi-filter-info                        |      [Info](./src/Spec/Info.php)      | AddInfoFilter             |
@@ -64,6 +65,33 @@ Filters::getInstance()->addPathsFilter( function( array $paths, array $args ) {
   }
 } );
 
+```
+
+### Changing Request Body Content Type
+
+By default, WP OpenAPI assumes a content type of `application/x-www-form-urlencoded`. You can use the `wp_openapi_operation_request_body` filter to change this for specific endpoints, which is useful for endpoints that accept `application/json`.
+
+```php
+add_filter( 'wp_openapi_operation_request_body', function( $request_body, $operation ) {
+    // Target a specific endpoint, for example, creating a new post.
+    if ( $operation->getEndpoint() === '/wp/v2/posts' && $operation->getMethod() === 'post' ) {
+        
+        // Get the existing schema.
+        $schema = $request_body['content']['application/x-www-form-urlencoded']['schema'];
+
+        // Return a new request body with 'application/json'.
+        return [
+            'content' => [
+                'application/json' => [
+                    'schema' => $schema,
+                ],
+            ],
+        ];
+    }
+
+    // Return the original request body for all other endpoints.
+    return $request_body;
+}, 10, 2 );
 ```
 
 ## Using security field
