@@ -77,21 +77,8 @@ class SchemaGenerator {
 						$base['components']['schemas'][ $schemaTitle ] = $schema;
 					}
 				}
-				// Extract responses from route options if available
-				// WordPress stores route-level options (like 'schema' and 'responses') in route options
-				$routeResponses = isset( $options['responses'] ) ? $options['responses'] : null;
-				// Also check if responses are in the args structure as a fallback
-				if ( ! $routeResponses && is_array( $args ) ) {
-					// Check if responses is in the last element (route-level options are usually appended)
-					foreach ( $args as $arg ) {
-						if ( isset( $arg['responses'] ) && is_array( $arg['responses'] ) ) {
-							$routeResponses = $arg['responses'];
-							break;
-						}
-					}
-				}
 				$path = new Path( $path, $schemaTitle );
-				$path->generateOperationsFromRouteArgs( $args, $routeResponses );
+				$path->generateOperationsFromRouteArgs( $args );
 				$paths[ $path->getPath() ] = $path;
 			}
 		}
