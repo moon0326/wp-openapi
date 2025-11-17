@@ -39,9 +39,6 @@ class Response {
 		if ( count( $this->contents ) ) {
 			foreach ( $this->contents as $content ) {
 				$data['content'][ $content->getMediaType() ]['schema'] = $content->getSchema();
-				if ( $content->getExample() !== null ) {
-					$data['content'][ $content->getMediaType() ]['example'] = $content->getExample();
-				}
 			}
 		}
 
