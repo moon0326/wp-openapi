@@ -68,6 +68,9 @@ class Path {
 					if ( isset( $responseDef['content'] ) && is_array( $responseDef['content'] ) ) {
 						foreach ( $responseDef['content'] as $mediaType => $contentDef ) {
 							$schema  = $contentDef['schema'] ?? array();
+							if ( is_array( $schema ) && ! isset( $schema['$ref'] ) ) {
+								$schema = \WPOpenAPI\Util::normalizeSchema( $schema );
+							}
 							$example = $contentDef['example'] ?? null;
 							$content = new ResponseContent( $mediaType, $schema, $example );
 							$response->addContent( $content );

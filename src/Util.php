@@ -32,35 +32,96 @@ class Util {
 	}
 
 	/**
-	 * In WordPress, some schema formats are not compatible with the OpenAPI specification.
-	 * This function converts those special or non-standard types to OpenAPI-compatible values.
-	 * These values should not be used as 'type' values according to JSON Schema,
-	 * but are sometimes used in WordPress REST API schemas regardless.
-	*/
-	public static function normalzieInvalidType( $type ) {
-		if ( is_array( $type ) ) {
-			foreach ( $type as $key => $value ) {
-				$type[ $key ] = self::normalzieInvalidType( $value );
-			}
-			return $type;
+	 * Recursively normalizes a schema by fixing invalid types.
+	 * Converts types like 'date-time' to proper 'type: string, format: date-time'.
+	 *
+	 * Accepts either:
+	 * - A string (type value) - returns normalized schema array
+	 * - An array (full schema) - returns normalized schema array
+	 *
+	 * For example:
+	 * - 'date-time' returns ['type' => 'string', 'format' => 'date-time']
+	 * - 'bool' returns ['type' => 'boolean']
+	 * - ['type' => 'date-time'] returns ['type' => 'string', 'format' => 'date-time']
+	 *
+	 * @param string|array $schema The type value or schema to normalize
+	 * @return array The normalized schema
+	 */
+	public static function normalizeSchema( $schema ): array {
+		// Handle string input (just a type value)
+		if ( is_string( $schema ) ) {
+			$schema = array( 'type' => $schema );
 		}
 
-		$replacements = array(
-			'date' => 'string',
-			'date-time' => 'string',
-			'email' => 'string',
-			'hostname' => 'string',
-			'ipv4' => 'string',
-			'uri' => 'string',
-			'mixed' => 'string',
-			'bool' => 'boolean',
+		$typeToFormat = array(
+			'date'      => 'date',
+			'date-time' => 'date-time',
+			'email'     => 'email',
+			'hostname'  => 'hostname',
+			'ipv4'      => 'ipv4',
+			'uri'       => 'uri',
 		);
 
-		if ( isset( $replacements[ $type ] ) ) {
-			return $replacements[ $type ];
+		$replacements = array(
+			'mixed' => 'string',
+			'bool'  => 'boolean',
+		);
+
+		// Normalize 'type' field if present and format is not already set
+		if ( isset( $schema['type'] ) && ! isset( $schema['format'] ) ) {
+			$type = $schema['type'];
+
+			if ( is_array( $type ) ) {
+				// Handle array of types (e.g., ['string', 'null'])
+				foreach ( $type as $key => $value ) {
+					if ( isset( $typeToFormat[ $value ] ) ) {
+						$schema['type'][ $key ] = 'string';
+						if ( ! isset( $schema['format'] ) ) {
+							$schema['format'] = $typeToFormat[ $value ];
+						}
+					} elseif ( isset( $replacements[ $value ] ) ) {
+						$schema['type'][ $key ] = $replacements[ $value ];
+					}
+				}
+			} elseif ( isset( $typeToFormat[ $type ] ) ) {
+				$schema['type'] = 'string';
+				$schema['format'] = $typeToFormat[ $type ];
+			} elseif ( isset( $replacements[ $type ] ) ) {
+				$schema['type'] = $replacements[ $type ];
+			}
 		}
 
-		return $type;
+		// Recursively normalize 'properties'
+		if ( isset( $schema['properties'] ) && is_array( $schema['properties'] ) ) {
+			foreach ( $schema['properties'] as $key => $property ) {
+				if ( is_array( $property ) ) {
+					$schema['properties'][ $key ] = self::normalizeSchema( $property );
+				}
+			}
+		}
+
+		// Recursively normalize 'items'
+		if ( isset( $schema['items'] ) && is_array( $schema['items'] ) ) {
+			$schema['items'] = self::normalizeSchema( $schema['items'] );
+		}
+
+		// Recursively normalize 'allOf', 'oneOf', 'anyOf'
+		foreach ( array( 'allOf', 'oneOf', 'anyOf' ) as $combiner ) {
+			if ( isset( $schema[ $combiner ] ) && is_array( $schema[ $combiner ] ) ) {
+				foreach ( $schema[ $combiner ] as $key => $subSchema ) {
+					if ( is_array( $subSchema ) ) {
+						$schema[ $combiner ][ $key ] = self::normalizeSchema( $subSchema );
+					}
+				}
+			}
+		}
+
+		// Recursively normalize 'additionalProperties' if it's a schema
+		if ( isset( $schema['additionalProperties'] ) && is_array( $schema['additionalProperties'] ) ) {
+			$schema['additionalProperties'] = self::normalizeSchema( $schema['additionalProperties'] );
+		}
+
+		return $schema;
 	}
 
 	public static function normalizeEnum( $enum ) {

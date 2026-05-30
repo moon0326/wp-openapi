@@ -74,7 +74,7 @@ class SchemaGenerator {
 					if ( isset( $schema['title'] ) ) {
 						$title = Util::normalizeSchemaTitle( $schema['title'] );
 						$schemaTitle                                   = $title;
-						$base['components']['schemas'][ $schemaTitle ] = $schema;
+						$base['components']['schemas'][ $schemaTitle ] = Util::normalizeSchema( $schema );
 					}
 				}
 				// Extract responses from route options if available
@@ -178,7 +178,7 @@ class SchemaGenerator {
 				$base['components']['schemas'][$schemaKey]['properties'] = $base['components']['schemas'][$schemaKey]['properties']['properties'];	
 				foreach ($base['components']['schemas'][$schemaKey]['properties'] as $key => $property) {
 					if (is_string($property)) {
-						$base['components']['schemas'][$schemaKey]['properties'][$key] = array('type' => Util::normalzieInvalidType($property));
+						$base['components']['schemas'][$schemaKey]['properties'][$key] = Util::normalizeSchema($property);
 					}
 				}
 			}

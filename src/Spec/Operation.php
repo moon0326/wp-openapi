@@ -185,9 +185,7 @@ class Operation {
 			}
 
 			$schema = Util::removeArrayKeysRecursively( $schema, array( 'context', 'readonly' ) );
-			Util::modifyArrayValueByKeyRecursive($schema, 'type', function($type) {
-				return Util::normalzieInvalidType($type);
-			});
+			$schema = Util::normalizeSchema( $schema );
 
 			Util::modifyArrayValueByKeyRecursive($schema, 'properties', function($properties) {
 				if (is_array($properties) && count($properties) === 0) {
@@ -206,7 +204,7 @@ class Operation {
 					}
 					foreach ($property as $propKey => $propValue) {
 						if ($propKey === 'items' && is_string($propValue)) {
-							$properties[$key]['items'] = array('type' => Util::normalzieInvalidType($propValue));
+							$properties[$key]['items'] = Util::normalizeSchema($propValue);
 						}
 					}
 				}
@@ -327,7 +325,11 @@ class Operation {
 				$values['type'] = 'string';
 			}
 
-			$values['type'] = Util::normalzieInvalidType( $values['type'] );
+			$normalized = Util::normalizeSchema( $values['type'] );
+			$values['type'] = $normalized['type'];
+			if ( isset( $normalized['format'] ) && ! isset( $values['format'] ) ) {
+				$values['format'] = $normalized['format'];
+			}
 
 			$parameter = new Parameter( $in, $name, $values['type'], $values['description'], $values['required'] );
 			if ( isset( $values['default'] ) ) {
