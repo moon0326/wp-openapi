@@ -74,6 +74,11 @@ class Util {
 			if ( is_array( $type ) ) {
 				// Handle array of types (e.g., ['string', 'null'])
 				foreach ( $type as $key => $value ) {
+					if ( ! is_string( $value ) ) {
+						// Not a type token (e.g. a nested schema). Using it as an
+						// array offset in isset() below would fatal, so leave it.
+						continue;
+					}
 					if ( isset( $typeToFormat[ $value ] ) ) {
 						$schema['type'][ $key ] = 'string';
 						if ( ! isset( $schema['format'] ) ) {
