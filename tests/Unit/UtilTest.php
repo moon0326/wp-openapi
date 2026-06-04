@@ -79,6 +79,13 @@ class UtilTest extends TestCase
         $this->assertEquals(['type' => ['boolean', 'null']], $result);
     }
 
+    public function testNormalizeSchemaWithArrayOfTypesIncludingNonString()
+    {
+        // A non-string element (e.g. a nested schema) must not crash; leave it as is.
+        $result = Util::normalizeSchema(['type' => ['string', ['$ref' => '#/x']]]);
+        $this->assertEquals(['string', ['$ref' => '#/x']], $result['type']);
+    }
+
     public function testNormalizeSchemaWithNestedProperties()
     {
         $schema = [
